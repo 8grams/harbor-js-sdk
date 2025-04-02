@@ -1,23 +1,37 @@
 const FetchUtil = require('../utils/fetch');
 
+/**
+ * Class for managing Harbor configuration
+ */
 class Configuration {
+  /**
+   * Create a Configuration instance
+   * @param {FetchUtil} fetchUtil - The fetch utility instance
+   */
   constructor(fetchUtil) {
-    this.fetch = fetchUtil.fetch.bind(fetchUtil);
+    this.fetchUtil = fetchUtil;
   }
 
-  async getInternalConfig() {
-    return this.fetch('/internalconfig');
+  /**
+   * Get system configuration
+   * @returns {Promise<Object>} System configuration
+   */
+  async getConfiguration() {
+    const response = await this.fetchUtil._fetch('/configurations');
+    return response;
   }
 
-  async getConfigurations() {
-    return this.fetch('/configurations');
-  }
-
-  async updateConfigurations(config) {
-    return this.fetch('/configurations', {
+  /**
+   * Update system configuration
+   * @param {Object} configuration - Updated configuration
+   * @returns {Promise<Object>} Updated configuration
+   */
+  async updateConfiguration(configuration) {
+    const response = await this.fetchUtil._fetch('/configurations', {
       method: 'PUT',
-      body: JSON.stringify(config)
+      body: JSON.stringify(configuration)
     });
+    return response;
   }
 }
 

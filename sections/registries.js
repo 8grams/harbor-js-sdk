@@ -1,4 +1,11 @@
+/**
+ * Class for managing Harbor registries
+ */
 class Registries {
+  /**
+   * Create a Registries instance
+   * @param {FetchUtil} fetchUtil - The fetch utility instance
+   */
   constructor(fetchUtil) {
     this.fetchUtil = fetchUtil;
   }
@@ -12,14 +19,29 @@ class Registries {
     return this.fetchUtil._fetch('/replication/adapterinfos');
   }
 
-  // Registry methods
+  /**
+   * Create a new registry
+   * @param {Object} registry - Registry configuration
+   * @returns {Promise<Object>} The created registry
+   */
   async createRegistry(registry) {
-    return this.fetchUtil._fetch('/registries', {
+    const response = await this.fetchUtil._fetch('/registries', {
       method: 'POST',
       body: JSON.stringify(registry)
     });
+    return response;
   }
 
+  /**
+   * List registries with optional filtering and pagination
+   * @param {Object} options - Query options
+   * @param {string} [options.query] - Search query
+   * @param {string} [options.sort] - Sort field
+   * @param {string} [options.name] - Registry name
+   * @param {number} [options.page=1] - Page number
+   * @param {number} [options.pageSize=10] - Number of items per page
+   * @returns {Promise<Object>} List of registries
+   */
   async listRegistries({ query, sort, name, page = 1, pageSize = 10 } = {}) {
     const params = new URLSearchParams();
     if (query) params.append('q', query);
@@ -28,35 +50,66 @@ class Registries {
     params.append('page', page);
     params.append('page_size', pageSize);
 
-    return this.fetchUtil._fetch(`/registries?${params.toString()}`);
+    const response = await this.fetchUtil._fetch(`/registries?${params.toString()}`);
+    return response;
   }
 
+  /**
+   * Ping a registry to verify connectivity
+   * @param {Object} registry - Registry configuration to test
+   * @returns {Promise<Object>} Ping result
+   */
   async pingRegistry(registry) {
-    return this.fetchUtil._fetch('/registries/ping', {
+    const response = await this.fetchUtil._fetch('/registries/ping', {
       method: 'POST',
       body: JSON.stringify(registry)
     });
+    return response;
   }
 
+  /**
+   * Get a registry by ID
+   * @param {number} id - The ID of the registry
+   * @returns {Promise<Object>} Registry details
+   */
   async getRegistry(id) {
-    return this.fetchUtil._fetch(`/registries/${id}`);
+    const response = await this.fetchUtil._fetch(`/registries/${id}`);
+    return response;
   }
 
+  /**
+   * Update a registry
+   * @param {number} id - The ID of the registry
+   * @param {Object} registry - Updated registry configuration
+   * @returns {Promise<Object>} Updated registry details
+   */
   async updateRegistry(id, registry) {
-    return this.fetchUtil._fetch(`/registries/${id}`, {
+    const response = await this.fetchUtil._fetch(`/registries/${id}`, {
       method: 'PUT',
       body: JSON.stringify(registry)
     });
+    return response;
   }
 
+  /**
+   * Delete a registry
+   * @param {number} id - The ID of the registry
+   * @returns {Promise<void>}
+   */
   async deleteRegistry(id) {
-    return this.fetchUtil._fetch(`/registries/${id}`, {
+    await this.fetchUtil._fetch(`/registries/${id}`, {
       method: 'DELETE'
     });
   }
 
+  /**
+   * Get registry information
+   * @param {number} id - The ID of the registry
+   * @returns {Promise<Object>} Registry information
+   */
   async getRegistryInfo(id) {
-    return this.fetchUtil._fetch(`/registries/${id}/info`);
+    const response = await this.fetchUtil._fetch(`/registries/${id}/info`);
+    return response;
   }
 }
 

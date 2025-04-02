@@ -1,154 +1,137 @@
 const FetchUtil = require('../utils/fetch');
 
-class P2PPreheat {
+/**
+ * Class for managing Harbor P2P preheat functionality
+ */
+class P2pPreheat {
+  /**
+   * Create a P2pPreheat instance
+   * @param {FetchUtil} fetchUtil - The fetch utility instance
+   */
   constructor(fetchUtil) {
-    this.fetch = fetchUtil.fetch.bind(fetchUtil);
+    this.fetchUtil = fetchUtil;
   }
 
-  async listP2PProviders() {
-    return this.fetch('/p2p/preheat/providers');
+  /**
+   * List P2P preheat instances
+   * @param {Object} options - Query options
+   * @param {number} [options.page=1] - Page number
+   * @param {number} [options.pageSize=10] - Number of items per page
+   * @returns {Promise<Object>} List of P2P preheat instances
+   */
+  async listInstances({ page, pageSize } = {}) {
+    const response = await this.fetchUtil._fetch('/p2p/preheat/instances', {
+      params: { page, page_size: pageSize }
+    });
+    return response;
   }
 
-  async pingP2PInstance(instance) {
-    return this.fetch('/p2p/preheat/instances/ping', {
+  /**
+   * Create a P2P preheat instance
+   * @param {Object} instance - Instance configuration
+   * @returns {Promise<Object>} Created instance
+   */
+  async createInstance(instance) {
+    const response = await this.fetchUtil._fetch('/p2p/preheat/instances', {
       method: 'POST',
       body: JSON.stringify(instance)
     });
+    return response;
   }
 
-  async listP2PInstances({
-    query,
-    sort,
-    page = 1,
-    pageSize = 10
-  } = {}) {
-    const params = new URLSearchParams();
-    if (query) params.append('q', query);
-    if (sort) params.append('sort', sort);
-    params.append('page', page);
-    params.append('page_size', pageSize);
-
-    return this.fetch(`/p2p/preheat/instances?${params.toString()}`);
+  /**
+   * Get P2P preheat instance details
+   * @param {string} instanceName - Name of the instance
+   * @returns {Promise<Object>} Instance details
+   */
+  async getInstance(instanceName) {
+    const response = await this.fetchUtil._fetch(`/p2p/preheat/instances/${instanceName}`);
+    return response;
   }
 
-  async createP2PInstance(instance) {
-    return this.fetch('/p2p/preheat/instances', {
-      method: 'POST',
-      body: JSON.stringify(instance)
-    });
-  }
-
-  async getP2PInstance(instanceName) {
-    return this.fetch(`/p2p/preheat/instances/${encodeURIComponent(instanceName)}`);
-  }
-
-  async updateP2PInstance(instanceName, instance) {
-    return this.fetch(`/p2p/preheat/instances/${encodeURIComponent(instanceName)}`, {
+  /**
+   * Update a P2P preheat instance
+   * @param {string} instanceName - Name of the instance
+   * @param {Object} instance - Updated instance configuration
+   * @returns {Promise<Object>} Updated instance
+   */
+  async updateInstance(instanceName, instance) {
+    const response = await this.fetchUtil._fetch(`/p2p/preheat/instances/${instanceName}`, {
       method: 'PUT',
       body: JSON.stringify(instance)
     });
+    return response;
   }
 
-  async deleteP2PInstance(instanceName) {
-    return this.fetch(`/p2p/preheat/instances/${encodeURIComponent(instanceName)}`, {
+  /**
+   * Delete a P2P preheat instance
+   * @param {string} instanceName - Name of the instance
+   * @returns {Promise<void>}
+   */
+  async deleteInstance(instanceName) {
+    await this.fetchUtil._fetch(`/p2p/preheat/instances/${instanceName}`, {
       method: 'DELETE'
     });
   }
 
-  async createPreheatPolicy(projectName, policy) {
-    return this.fetch(`/projects/${encodeURIComponent(projectName)}/preheat/policies`, {
-      method: 'POST',
-      body: JSON.stringify(policy)
+  /**
+   * List P2P preheat tasks
+   * @param {Object} options - Query options
+   * @param {number} [options.page=1] - Page number
+   * @param {number} [options.pageSize=10] - Number of items per page
+   * @returns {Promise<Object>} List of P2P preheat tasks
+   */
+  async listTasks({ page, pageSize } = {}) {
+    const response = await this.fetchUtil._fetch('/p2p/preheat/tasks', {
+      params: { page, page_size: pageSize }
     });
+    return response;
   }
 
-  async listPreheatPolicies(projectName, {
-    query,
-    sort,
-    page = 1,
-    pageSize = 10
-  } = {}) {
-    const params = new URLSearchParams();
-    if (query) params.append('q', query);
-    if (sort) params.append('sort', sort);
-    params.append('page', page);
-    params.append('page_size', pageSize);
-
-    return this.fetch(`/projects/${encodeURIComponent(projectName)}/preheat/policies?${params.toString()}`);
+  /**
+   * Create a P2P preheat task
+   * @param {Object} task - Task configuration
+   * @returns {Promise<Object>} Created task
+   */
+  async createTask(task) {
+    const response = await this.fetchUtil._fetch('/p2p/preheat/tasks', {
+      method: 'POST',
+      body: JSON.stringify(task)
+    });
+    return response;
   }
 
-  async getPreheatPolicy(projectName, policyName) {
-    return this.fetch(`/projects/${encodeURIComponent(projectName)}/preheat/policies/${encodeURIComponent(policyName)}`);
+  /**
+   * Get P2P preheat task details
+   * @param {string} taskId - ID of the task
+   * @returns {Promise<Object>} Task details
+   */
+  async getTask(taskId) {
+    const response = await this.fetchUtil._fetch(`/p2p/preheat/tasks/${taskId}`);
+    return response;
   }
 
-  async updatePreheatPolicy(projectName, policyName, policy) {
-    return this.fetch(`/projects/${encodeURIComponent(projectName)}/preheat/policies/${encodeURIComponent(policyName)}`, {
+  /**
+   * Stop a P2P preheat task
+   * @param {string} taskId - ID of the task
+   * @returns {Promise<void>}
+   */
+  async stopTask(taskId) {
+    await this.fetchUtil._fetch(`/p2p/preheat/tasks/${taskId}`, {
       method: 'PUT',
-      body: JSON.stringify(policy)
+      body: JSON.stringify({ action: 'stop' })
     });
   }
 
-  async manualPreheat(projectName, policyName, policy) {
-    return this.fetch(`/projects/${encodeURIComponent(projectName)}/preheat/policies/${encodeURIComponent(policyName)}`, {
-      method: 'POST',
-      body: JSON.stringify(policy)
-    });
-  }
-
-  async deletePreheatPolicy(projectName, policyName) {
-    return this.fetch(`/projects/${encodeURIComponent(projectName)}/preheat/policies/${encodeURIComponent(policyName)}`, {
-      method: 'DELETE'
-    });
-  }
-
-  async listPreheatExecutions(projectName, policyName, {
-    page = 1,
-    pageSize = 10
-  } = {}) {
-    const params = new URLSearchParams();
-    params.append('page', page);
-    params.append('page_size', pageSize);
-
-    return this.fetch(`/projects/${encodeURIComponent(projectName)}/preheat/policies/${encodeURIComponent(policyName)}/executions?${params.toString()}`);
-  }
-
-  async getPreheatExecution(projectName, policyName, executionId) {
-    return this.fetch(`/projects/${encodeURIComponent(projectName)}/preheat/policies/${encodeURIComponent(policyName)}/executions/${executionId}`);
-  }
-
-  async stopPreheatExecution(projectName, policyName, executionId, execution) {
-    return this.fetch(`/projects/${encodeURIComponent(projectName)}/preheat/policies/${encodeURIComponent(policyName)}/executions/${executionId}`, {
-      method: 'PATCH',
-      body: JSON.stringify(execution)
-    });
-  }
-
-  async listPreheatTasks(projectName, policyName, executionId, {
-    query,
-    sort,
-    page = 1,
-    pageSize = 10
-  } = {}) {
-    const params = new URLSearchParams();
-    if (query) params.append('q', query);
-    if (sort) params.append('sort', sort);
-    params.append('page', page);
-    params.append('page_size', pageSize);
-
-    return this.fetch(`/projects/${encodeURIComponent(projectName)}/preheat/policies/${encodeURIComponent(policyName)}/executions/${executionId}/tasks?${params.toString()}`);
-  }
-
-  async getPreheatLog(projectName, policyName, executionId, taskId) {
-    return this.fetch(`/projects/${encodeURIComponent(projectName)}/preheat/policies/${encodeURIComponent(policyName)}/executions/${executionId}/tasks/${taskId}/logs`, {
-      headers: {
-        'Accept': 'text/plain'
-      }
-    });
-  }
-
-  async listProjectProviders(projectName) {
-    return this.fetch(`/projects/${encodeURIComponent(projectName)}/preheat/providers`);
+  /**
+   * Get P2P preheat task logs
+   * @param {string} taskId - ID of the task
+   * @returns {Promise<Object>} Task logs
+   */
+  async getTaskLog(taskId) {
+    const response = await this.fetchUtil._fetch(`/p2p/preheat/tasks/${taskId}/log`);
+    return response;
   }
 }
 
-module.exports = P2PPreheat; 
+module.exports = P2pPreheat; 

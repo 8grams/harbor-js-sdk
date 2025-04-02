@@ -1,57 +1,82 @@
 const FetchUtil = require('../utils/fetch');
 
+/**
+ * Class for managing Harbor tags
+ */
 class Tags {
+  /**
+   * Create a Tags instance
+   * @param {FetchUtil} fetchUtil - The fetch utility instance
+   */
   constructor(fetchUtil) {
-    this.fetch = fetchUtil.fetch.bind(fetchUtil);
+    this.fetchUtil = fetchUtil;
   }
 
-  async listTags(projectName, repositoryName, reference, { 
-    query, 
-    sort, 
-    page, 
-    pageSize,
-    withImmutableStatus
-  } = {}) {
-    return this.fetch(`/projects/${projectName}/repositories/${repositoryName}/artifacts/${reference}/tags`, {
-      params: { 
-        query, 
-        sort, 
-        page, 
-        page_size: pageSize,
-        with_immutable_status: withImmutableStatus
-      }
+  /**
+   * List tags for a repository
+   * @param {string} projectName - Name of the project
+   * @param {string} repositoryName - Name of the repository
+   * @param {Object} options - Query options
+   * @param {number} [options.page=1] - Page number
+   * @param {number} [options.pageSize=10] - Number of items per page
+   * @param {string} [options.labelId] - Filter by label ID
+   * @param {string} [options.sort] - Sort field
+   * @returns {Promise<Object>} List of tags
+   */
+  async listTags(projectName, repositoryName, { page, pageSize, labelId, sort } = {}) {
+    const response = await this.fetchUtil._fetch(`/repositories/${projectName}/${repositoryName}/tags`, {
+      params: { page, page_size: pageSize, label_id: labelId, sort }
     });
+    return response;
   }
 
-  async createTag(projectName, repositoryName, reference, tag) {
-    return this.fetch(`/projects/${projectName}/repositories/${repositoryName}/artifacts/${reference}/tags`, {
-      method: 'POST',
-      body: JSON.stringify(tag)
-    });
+  /**
+   * Get tag details
+   * @param {string} projectName - Name of the project
+   * @param {string} repositoryName - Name of the repository
+   * @param {string} tag - Tag name
+   * @returns {Promise<Object>} Tag details
+   */
+  async getTag(projectName, repositoryName, tag) {
+    const response = await this.fetchUtil._fetch(`/repositories/${projectName}/${repositoryName}/tags/${tag}`);
+    return response;
   }
 
-  async deleteTag(projectName, repositoryName, reference, tagName) {
-    return this.fetch(`/projects/${projectName}/repositories/${repositoryName}/artifacts/${reference}/tags/${tagName}`, {
+  /**
+   * Delete a tag
+   * @param {string} projectName - Name of the project
+   * @param {string} repositoryName - Name of the repository
+   * @param {string} tag - Tag name
+   * @returns {Promise<void>}
+   */
+  async deleteTag(projectName, repositoryName, tag) {
+    await this.fetchUtil._fetch(`/repositories/${projectName}/${repositoryName}/tags/${tag}`, {
       method: 'DELETE'
     });
   }
 
-  async scanArtifact(projectName, repositoryName, reference, scanType) {
-    return this.fetch(`/projects/${projectName}/repositories/${repositoryName}/artifacts/${reference}/scan`, {
-      method: 'POST',
-      body: JSON.stringify(scanType)
-    });
+  /**
+   * Get tag vulnerabilities
+   * @param {string} projectName - Name of the project
+   * @param {string} repositoryName - Name of the repository
+   * @param {string} tag - Tag name
+   * @returns {Promise<Object>} Tag vulnerabilities
+   */
+  async getTagVulnerabilities(projectName, repositoryName, tag) {
+    const response = await this.fetchUtil._fetch(`/repositories/${projectName}/${repositoryName}/tags/${tag}/vulnerability/details`);
+    return response;
   }
 
-  async stopScanArtifact(projectName, repositoryName, reference, scanType) {
-    return this.fetch(`/projects/${projectName}/repositories/${repositoryName}/artifacts/${reference}/scan/stop`, {
-      method: 'POST',
-      body: JSON.stringify(scanType)
-    });
-  }
-
-  async getReportLog(projectName, repositoryName, reference, reportId) {
-    return this.fetch(`/projects/${projectName}/repositories/${repositoryName}/artifacts/${reference}/scan/${reportId}/log`);
+  /**
+   * Get tag manifest
+   * @param {string} projectName - Name of the project
+   * @param {string} repositoryName - Name of the repository
+   * @param {string} tag - Tag name
+   * @returns {Promise<Object>} Tag manifest
+   */
+  async getTagManifest(projectName, repositoryName, tag) {
+    const response = await this.fetchUtil._fetch(`/repositories/${projectName}/${repositoryName}/tags/${tag}/manifest`);
+    return response;
   }
 }
 

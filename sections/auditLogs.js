@@ -1,10 +1,26 @@
 const FetchUtil = require('../utils/fetch');
 
+/**
+ * Class for managing Harbor audit logs
+ */
 class AuditLogs {
+  /**
+   * Create an AuditLogs instance
+   * @param {FetchUtil} fetchUtil - The fetch utility instance
+   */
   constructor(fetchUtil) {
-    this.fetch = fetchUtil.fetch.bind(fetchUtil);
+    this.fetchUtil = fetchUtil;
   }
 
+  /**
+   * List audit logs with optional filtering and pagination
+   * @param {Object} options - Query options
+   * @param {string} [options.query] - Search query
+   * @param {string} [options.sort] - Sort field
+   * @param {number} [options.page=1] - Page number
+   * @param {number} [options.pageSize=10] - Number of items per page
+   * @returns {Promise<Object>} List of audit logs
+   */
   async listAuditLogs({
     query,
     sort,
@@ -17,7 +33,8 @@ class AuditLogs {
     params.append('page', page);
     params.append('page_size', pageSize);
 
-    return this.fetch(`/audit-logs?${params.toString()}`);
+    const response = await this.fetchUtil._fetch(`/audit-logs?${params.toString()}`);
+    return response;
   }
 }
 

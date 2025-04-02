@@ -1,27 +1,46 @@
 const FetchUtil = require('../utils/fetch');
 
+/**
+ * Class for managing Harbor LDAP configuration
+ */
 class LDAP {
+  /**
+   * Create an LDAP instance
+   * @param {FetchUtil} fetchUtil - The fetch utility instance
+   */
   constructor(fetchUtil) {
-    this.fetch = fetchUtil.fetch.bind(fetchUtil);
+    this.fetchUtil = fetchUtil;
   }
 
-  async pingLdap(ldapConfig) {
-    return this.fetch('/ldap/ping', {
+  /**
+   * Test LDAP connection
+   * @param {Object} ldapConfig - LDAP configuration to test
+   * @returns {Promise<Object>} Test result
+   */
+  async testConnection(ldapConfig) {
+    const response = await this.fetchUtil._fetch('/ldap/ping', {
       method: 'POST',
       body: JSON.stringify(ldapConfig)
     });
+    return response;
+  }
+
+  /**
+   * Import LDAP users
+   * @param {Object} importConfig - LDAP import configuration
+   * @returns {Promise<Object>} Import result
+   */
+  async importUsers(importConfig) {
+    const response = await this.fetchUtil._fetch('/ldap/users/import', {
+      method: 'POST',
+      body: JSON.stringify(importConfig)
+    });
+    return response;
   }
 
   async searchLdapUsers(username) {
     const query = username ? `?username=${encodeURIComponent(username)}` : '';
-    return this.fetch(`/ldap/users/search${query}`);
-  }
-
-  async importLdapUsers(uidList) {
-    return this.fetch('/ldap/users/import', {
-      method: 'POST',
-      body: JSON.stringify({ uid_list: uidList })
-    });
+    return this.fetchUtil._fetch(`/ldap/users/search${query}`);
   }
 
   async searchLdapGroups({ groupname, groupdn } = {}) {
@@ -30,7 +49,7 @@ class LDAP {
     if (groupdn) params.append('groupdn', groupdn);
     
     const query = params.toString() ? `?${params.toString()}` : '';
-    return this.fetch(`/ldap/groups/search${query}`);
+    return this.fetchUtil._fetch(`/ldap/groups/search${query}`);
   }
 }
 
