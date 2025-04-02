@@ -127,30 +127,63 @@ class System {
     return response;
   }
 
+  /**
+   * Get purge history
+   * @param {Object} options - Query options
+   * @param {string} [options.query] - Query string
+   * @param {string} [options.sort] - Sort field
+   * @param {number} [options.page=1] - Page number
+   * @param {number} [options.pageSize=10] - Number of items per page
+   * @returns {Promise<Object>} Purge history
+   */
   async getPurgeHistory({ query, sort, page, pageSize } = {}) {
     return this.fetch('/system/purgeaudit', {
       params: { query, sort, page, page_size: pageSize }
     });
   }
 
+  /**
+   * Get purge job
+   * @param {number} purgeId - ID of the purge job
+   * @returns {Promise<Object>} Purge job
+   */ 
   async getPurgeJob(purgeId) {
     return this.fetch(`/system/purgeaudit/${purgeId}`);
   }
 
+  /**
+   * Stop purge
+   * @param {number} purgeId - ID of the purge job
+   * @returns {Promise<void>}
+   */
   async stopPurge(purgeId) {
     return this.fetch(`/system/purgeaudit/${purgeId}`, {
       method: 'PUT'
     });
   }
 
+  /**
+   * Get purge job log
+   * @param {number} purgeId - ID of the purge job
+   * @returns {Promise<Object>} Purge job log
+   */ 
   async getPurgeJobLog(purgeId) {
     return this.fetch(`/system/purgeaudit/${purgeId}/log`);
   }
 
+  /**
+   * Get purge schedule
+   * @returns {Promise<Object>} Purge schedule
+   */ 
   async getPurgeSchedule() {
     return this.fetch('/system/purgeaudit/schedule');
   }
 
+  /**
+   * Create purge schedule
+   * @param {Object} schedule - Purge schedule configuration
+   * @returns {Promise<Object>} Created purge schedule
+   */
   async createPurgeSchedule(schedule) {
     return this.fetch('/system/purgeaudit/schedule', {
       method: 'POST',

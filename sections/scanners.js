@@ -112,10 +112,21 @@ class Scanners {
     return response;
   }
 
+  /**
+   * Get project scanner
+   * @param {string} projectNameOrId - The name or ID of the project
+   * @returns {Promise<Object>} Project scanner
+   */
   async getProjectScanner(projectNameOrId) {
     return this.fetchUtil.fetch(`/projects/${encodeURIComponent(projectNameOrId)}/scanner`);
   }
 
+  /**
+   * Set project scanner
+   * @param {string} projectNameOrId - The name or ID of the project
+   * @param {Object} payload - The payload to set the project scanner
+   * @returns {Promise<Object>} The updated project scanner
+   */
   async setProjectScanner(projectNameOrId, payload) {
     return this.fetchUtil.fetch(`/projects/${encodeURIComponent(projectNameOrId)}/scanner`, {
       method: 'PUT',
@@ -123,6 +134,16 @@ class Scanners {
     });
   }
 
+  /**
+   * List scanner candidates
+   * @param {string} projectNameOrId - The name or ID of the project
+   * @param {Object} options - The options for listing scanner candidates
+   * @param {string} [options.query] - The query to search for
+   * @param {string} [options.sort] - The sort field 
+   * @param {number} [options.page=1] - The page number
+   * @param {number} [options.pageSize=10] - The number of items per page
+   * @returns {Promise<Object>} The list of scanner candidates
+   */
   async listScannerCandidates(projectNameOrId, {
     query,
     sort,

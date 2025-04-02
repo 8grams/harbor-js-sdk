@@ -95,12 +95,28 @@ class Webhooks {
     return response;
   }
 
+  /**
+   * List webhook policies
+   * @param {string} projectNameOrId - Name or ID of the project
+   * @param {Object} options - Query options
+   * @param {string} [options.query] - Query string
+   * @param {string} [options.sort] - Sort field
+   * @param {number} [options.page=1] - Page number
+   * @param {number} [options.pageSize=10] - Number of items per page
+   * @returns {Promise<Object>} List of webhook policies
+   */
   async listWebhookPolicies(projectNameOrId, { query, sort, page, pageSize } = {}) {
     return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies`, {
       params: { query, sort, page, page_size: pageSize }
     });
   }
 
+  /**
+   * Create a webhook policy
+   * @param {string} projectNameOrId - Name or ID of the project
+   * @param {Object} policy - Webhook policy configuration
+   * @returns {Promise<Object>} Created webhook policy
+   */
   async createWebhookPolicy(projectNameOrId, policy) {
     return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies`, {
       method: 'POST',
@@ -108,10 +124,23 @@ class Webhooks {
     });
   }
 
+  /**
+   * Get a webhook policy
+   * @param {string} projectNameOrId - Name or ID of the project
+   * @param {number} policyId - ID of the webhook policy
+   * @returns {Promise<Object>} Webhook policy details
+   */
   async getWebhookPolicy(projectNameOrId, policyId) {
     return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies/${policyId}`);
   }
 
+  /**
+   * Update a webhook policy
+   * @param {string} projectNameOrId - Name or ID of the project
+   * @param {number} policyId - ID of the webhook policy
+   * @param {Object} policy - Updated webhook policy configuration
+   * @returns {Promise<Object>} Updated webhook policy
+   */ 
   async updateWebhookPolicy(projectNameOrId, policyId, policy) {
     return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies/${policyId}`, {
       method: 'PUT',
@@ -119,32 +148,61 @@ class Webhooks {
     });
   }
 
+  /**
+   * Delete a webhook policy
+   * @param {string} projectNameOrId - Name or ID of the project
+   * @param {number} policyId - ID of the webhook policy
+   * @returns {Promise<void>}
+   */ 
   async deleteWebhookPolicy(projectNameOrId, policyId) {
     return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies/${policyId}`, {
       method: 'DELETE'
     });
   }
 
-  async listWebhookExecutions(projectNameOrId, policyId, { query, sort, page, pageSize } = {}) {
-    return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies/${policyId}/executions`, {
-      params: { query, sort, page, page_size: pageSize }
-    });
-  }
-
+  /**
+   * List webhook executions
+   * @param {string} projectNameOrId - Name or ID of the project
+   * @param {number} policyId - ID of the webhook policy
+   * @param {Object} options - Query options
+   * @param {string} [options.query] - Query string
+   * @param {string} [options.sort] - Sort field
+   * @param {number} [options.page=1] - Page number
+   * @param {number} [options.pageSize=10] - Number of items per page
+   * @returns {Promise<Object>} List of webhook executions
+   */   
   async listWebhookTasks(projectNameOrId, policyId, executionId, { query, sort, page, pageSize } = {}) {
     return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies/${policyId}/executions/${executionId}/tasks`, {
       params: { query, sort, page, page_size: pageSize }
     });
   }
 
+  /**
+   * Get a webhook task log
+   * @param {string} projectNameOrId - Name or ID of the project
+   * @param {number} policyId - ID of the webhook policy
+   * @param {number} executionId - ID of the webhook execution
+   * @param {number} taskId - ID of the webhook task
+   * @returns {Promise<Object>} Webhook task log
+   */ 
   async getWebhookTaskLog(projectNameOrId, policyId, executionId, taskId) {
     return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies/${policyId}/executions/${executionId}/tasks/${taskId}/log`);
   }
 
+  /**
+   * Get the last trigger of a webhook
+   * @param {string} projectNameOrId - Name or ID of the project
+   * @returns {Promise<Object>} Last trigger of a webhook
+   */ 
   async getWebhookLastTrigger(projectNameOrId) {
     return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/lasttrigger`);
   }
 
+  /**
+   * Get supported event types
+   * @param {string} projectNameOrId - Name or ID of the project
+   * @returns {Promise<Object>} Supported event types
+   */ 
   async getSupportedEventTypes(projectNameOrId) {
     return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/events`);
   }

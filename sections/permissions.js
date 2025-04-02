@@ -84,16 +84,34 @@ class Permissions {
     return response;
   }
 
+  /**
+   * Get permissions
+   * @returns {Promise<Object>} Permissions
+   */
   async getPermissions() {
     return this.fetchUtil._fetch('/permissions');
   }
 
+  /**
+   * List users
+   * @param {Object} options - Query options
+   * @param {string} [options.query] - Query string
+   * @param {string} [options.sort] - Sort field
+   * @param {number} [options.page=1] - Page number
+   * @param {number} [options.pageSize=10] - Number of items per page
+   * @returns {Promise<Object>} List of users
+   */
   async listUsers({ query, sort, page, pageSize } = {}) {
     return this.fetchUtil._fetch('/users', {
       params: { query, sort, page, page_size: pageSize }
     });
   }
 
+  /**
+   * Create a user
+   * @param {Object} userReq - User request
+   * @returns {Promise<Object>} Created user
+   */
   async createUser(userReq) {
     return this.fetchUtil._fetch('/users', {
       method: 'POST',
@@ -101,20 +119,43 @@ class Permissions {
     });
   }
 
+  /**
+   * Get current user info
+   * @returns {Promise<Object>} Current user info
+   */
   async getCurrentUserInfo() {
     return this.fetchUtil._fetch('/users/current');
   }
 
+  /**
+   * Search users
+   * @param {string} username - Username
+   * @param {Object} options - Query options
+   * @param {number} [options.page=1] - Page number
+   * @param {number} [options.pageSize=10] - Number of items per page
+   * @returns {Promise<Object>} List of users
+   */
   async searchUsers(username, { page, pageSize } = {}) {
     return this.fetchUtil._fetch('/users/search', {
       params: { username, page, page_size: pageSize }
     });
   }
 
+  /**
+   * Get user info
+   * @param {number} userId - User ID
+   * @returns {Promise<Object>} User info
+   */
   async getUser(userId) {
     return this.fetchUtil._fetch(`/users/${userId}`);
   }
 
+  /**
+   * Update user profile
+   * @param {number} userId - User ID
+   * @param {Object} profile - Profile
+   * @returns {Promise<Object>} Updated profile
+   */
   async updateUserProfile(userId, profile) {
     return this.fetchUtil._fetch(`/users/${userId}`, {
       method: 'PUT',
@@ -122,12 +163,23 @@ class Permissions {
     });
   }
 
+  /**
+   * Delete user
+   * @param {number} userId - User ID
+   * @returns {Promise<Object>} Deleted user
+   */
   async deleteUser(userId) {
     return this.fetchUtil._fetch(`/users/${userId}`, {
       method: 'DELETE'
     });
   }
 
+  /**
+   * Set user sysadmin
+   * @param {number} userId - User ID
+   * @param {boolean} sysadminFlag - Sysadmin flag
+   * @returns {Promise<Object>} Updated sysadmin flag
+   */
   async setUserSysAdmin(userId, sysadminFlag) {
     return this.fetchUtil._fetch(`/users/${userId}/sysadmin`, {
       method: 'PUT',
@@ -135,6 +187,12 @@ class Permissions {
     });
   }
 
+  /**
+   * Update user password
+   * @param {number} userId - User ID
+   * @param {Object} passwordReq - Password request
+   * @returns {Promise<Object>} Updated password
+   */
   async updateUserPassword(userId, passwordReq) {
     return this.fetchUtil._fetch(`/users/${userId}/password`, {
       method: 'PUT',
@@ -142,12 +200,25 @@ class Permissions {
     });
   }
 
+  /**
+   * Get current user permissions
+   * @param {Object} options - Query options
+   * @param {string} [options.scope] - Scope
+   * @param {boolean} [options.relative] - Relative
+   * @returns {Promise<Object>} Current user permissions
+   */ 
   async getCurrentUserPermissions({ scope, relative } = {}) {
     return this.fetchUtil._fetch('/users/current/permissions', {
       params: { scope, relative }
     });
   }
 
+  /**
+   * Set CLI secret
+   * @param {number} userId - User ID
+   * @param {Object} secret - Secret
+   * @returns {Promise<Object>} Updated secret
+   */ 
   async setCliSecret(userId, secret) {
     return this.fetchUtil._fetch(`/users/${userId}/cli_secret`, {
       method: 'PUT',

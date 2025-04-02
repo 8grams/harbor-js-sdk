@@ -167,14 +167,30 @@ class Projects {
     });
   }
 
+  /**
+   * Get project deletable status
+   * @param {string} projectNameOrId - Name or ID of the project
+   * @returns {Promise<Object>} Project deletable status
+   */
   async getProjectDeletable(projectNameOrId) {
     return this.fetchUtil._fetch(`/projects/${projectNameOrId}/_deletable`);
   }
 
+  /**
+   * Get project scanner
+   * @param {string} projectNameOrId - Name or ID of the project
+   * @returns {Promise<Object>} Project scanner
+   */
   async getProjectScanner(projectNameOrId) {
     return this.fetchUtil._fetch(`/projects/${projectNameOrId}/scanner`);
   }
 
+  /**
+   * Set project scanner
+   * @param {string} projectNameOrId - Name or ID of the project
+   * @param {Object} payload - Scanner configuration
+   * @returns {Promise<Object>} Updated project scanner
+   */
   async setProjectScanner(projectNameOrId, payload) {
     return this.fetchUtil._fetch(`/projects/${projectNameOrId}/scanner`, {
       method: 'PUT',
@@ -182,6 +198,16 @@ class Projects {
     });
   }
 
+  /**
+   * List scanner candidates
+   * @param {string} projectNameOrId - Name or ID of the project
+   * @param {Object} options - Query options
+   * @param {string} [options.query] - Search query
+   * @param {string} [options.sort] - Sort field
+   * @param {number} [options.page=1] - Page number
+   * @param {number} [options.pageSize=10] - Number of items per page
+   * @returns {Promise<Object>} List of scanner candidates
+   */
   async listScannerCandidates(projectNameOrId, { query, sort, page, pageSize } = {}) {
     return this.fetchUtil._fetch(`/projects/${projectNameOrId}/scanner/candidates`, {
       params: { query, sort, page, page_size: pageSize }

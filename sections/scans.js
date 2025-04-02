@@ -30,6 +30,14 @@ class Scans {
     return response;
   }
 
+  /**
+   * Scan an artifact
+   * @param {string} projectName - The name of the project
+   * @param {string} repositoryName - The name of the repository
+   * @param {string} reference - The reference of the artifact
+   * @param {Object} scanType - The type of scan to perform
+   * @returns {Promise<Object>} The result of the scan
+   */ 
   async scanArtifact(projectName, repositoryName, reference, scanType) {
     return this.fetchUtil.fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/scan`, {
       method: 'POST',
@@ -37,6 +45,14 @@ class Scans {
     });
   }
 
+  /**
+   * Stop a scan
+   * @param {string} projectName - The name of the project
+   * @param {string} repositoryName - The name of the repository
+   * @param {string} reference - The reference of the artifact
+   * @param {Object} scanType - The type of scan to perform
+   * @returns {Promise<Object>} The result of the scan
+   */  
   async stopScanArtifact(projectName, repositoryName, reference, scanType) {
     return this.fetchUtil.fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/scan/stop`, {
       method: 'POST',
@@ -44,6 +60,14 @@ class Scans {
     });
   }
 
+  /**
+   * Get the report log
+   * @param {string} projectName - The name of the project
+   * @param {string} repositoryName - The name of the repository
+   * @param {string} reference - The reference of the artifact
+   * @param {string} reportId - The ID of the report
+   * @returns {Promise<Object>} The result of the scan
+   */   
   async getReportLog(projectName, repositoryName, reference, reportId) {
     return this.fetchUtil.fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/scan/${encodeURIComponent(reportId)}/log`, {
       headers: {
