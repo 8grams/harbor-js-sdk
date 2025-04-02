@@ -10,11 +10,18 @@ class Registries {
     this.fetchUtil = fetchUtil;
   }
 
-  // Registry adapter methods
+  /**
+   * List registry adapters
+   * @returns {Promise<Object>} List of registry adapters
+   */
   async listRegistryAdapters() {
     return this.fetchUtil._fetch('/replication/adapters');
   }
 
+  /**
+   * List registry provider infos
+   * @returns {Promise<Object>} List of registry provider infos
+   */
   async listRegistryProviderInfos() {
     return this.fetchUtil._fetch('/replication/adapterinfos');
   }

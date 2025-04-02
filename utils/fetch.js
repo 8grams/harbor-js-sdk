@@ -9,7 +9,13 @@ class FetchUtil {
     };
   }
 
-  async fetch(endpoint, options = {}) {
+  /**
+   * Perform a fetch request
+   * @param {string} endpoint - The endpoint to fetch
+   * @param {Object} options - Fetch options
+   * @returns {Promise<Object>} Fetch response
+   */
+  async _fetch(endpoint, options = {}) {
     const url = `${this.baseUrl}${endpoint}`;
     const auth = btoa(`${this.username}:${this.password}`);
     
