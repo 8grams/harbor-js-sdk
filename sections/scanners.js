@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor scanners
@@ -160,4 +160,4 @@ class Scanners {
   }
 }
 
-module.exports = Scanners; 
+export default Scanners; 

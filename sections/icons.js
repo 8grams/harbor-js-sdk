@@ -21,4 +21,4 @@ class Icons {
   }
 }
 
-module.exports = Icons; 
+export default Icons; 

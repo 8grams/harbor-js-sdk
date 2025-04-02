@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor job service operations
@@ -71,20 +71,36 @@ class JobService {
     return response;
   }
 
+  /**
+   * Get worker pools
+   * @returns {Promise<Object>} List of worker pools
+   */
   async getWorkerPools() {
-    return this.fetchUtil.fetch('/jobservice/pools');
+    const response = await this.fetchUtil._fetch('/jobservice/pools');
+    return response;
   }
 
+  /**
+   * Get workers in pool
+   * @param {string} poolId - ID of the pool
+   * @returns {Promise<Object>} List of workers in pool
+   */
   async getWorkersInPool(poolId) {
-    return this.fetchUtil.fetch(`/jobservice/pools/${poolId}/workers`);
+    const response = await this.fetchUtil._fetch(`/jobservice/pools/${poolId}/workers`);
+    return response;
   }
 
+  /**
+   * Stop job
+   * @param {string} jobId - ID of the job
+   * @returns {Promise<void>}
+   */
   async stopJob(jobId) {
-    return this.fetchUtil.fetch(`/jobservice/jobs/${jobId}`, {
+    await this.fetchUtil._fetch(`/jobservice/jobs/${jobId}`, {
       method: 'PUT',
       body: JSON.stringify({ action: 'stop' })
     });
   }
 }
 
-module.exports = JobService; 
+export default JobService; 

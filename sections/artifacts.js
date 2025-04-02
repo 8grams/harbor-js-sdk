@@ -58,4 +58,4 @@ class Artifacts {
   }
 }
 
-module.exports = Artifacts; 
+export default Artifacts; 

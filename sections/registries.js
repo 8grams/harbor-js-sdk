@@ -120,4 +120,4 @@ class Registries {
   }
 }
 
-module.exports = Registries; 
+export default Registries; 

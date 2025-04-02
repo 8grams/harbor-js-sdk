@@ -57,4 +57,4 @@ class Quotas {
   }
 }
 
-module.exports = Quotas; 
+export default Quotas; 

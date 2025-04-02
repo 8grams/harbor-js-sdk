@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor tags
@@ -80,4 +80,4 @@ class Tags {
   }
 }
 
-module.exports = Tags; 
+export default Tags; 

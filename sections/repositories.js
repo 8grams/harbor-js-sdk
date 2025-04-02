@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor repositories
@@ -216,4 +216,4 @@ class Repositories {
   }
 }
 
-module.exports = Repositories; 
+export default Repositories; 

@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor user groups
@@ -123,4 +123,4 @@ class UserGroup {
   }
 }
 
-module.exports = UserGroup; 
+export default UserGroup; 

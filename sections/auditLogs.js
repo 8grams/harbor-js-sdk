@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor audit logs
@@ -38,4 +38,4 @@ class AuditLogs {
   }
 }
 
-module.exports = AuditLogs; 
+export default AuditLogs; 

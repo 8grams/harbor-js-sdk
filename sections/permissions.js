@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor permissions
@@ -227,4 +227,4 @@ class Permissions {
   }
 }
 
-module.exports = Permissions; 
+export default Permissions; 

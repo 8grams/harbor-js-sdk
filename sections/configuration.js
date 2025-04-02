@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor configuration
@@ -35,4 +35,4 @@ class Configuration {
   }
 }
 
-module.exports = Configuration; 
+export default Configuration; 

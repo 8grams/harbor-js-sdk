@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor P2P preheat functionality
@@ -134,4 +134,4 @@ class P2pPreheat {
   }
 }
 
-module.exports = P2pPreheat; 
+export default P2pPreheat; 

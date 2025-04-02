@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor immutable tag rules
@@ -69,4 +69,4 @@ class ImmutableTagRules {
   }
 }
 
-module.exports = ImmutableTagRules; 
+export default ImmutableTagRules; 

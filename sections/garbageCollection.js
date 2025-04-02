@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor garbage collection
@@ -92,4 +92,4 @@ class GarbageCollection {
   }
 }
 
-module.exports = GarbageCollection; 
+export default GarbageCollection; 

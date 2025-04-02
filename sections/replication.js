@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor replication operations
@@ -279,4 +279,4 @@ class Replication {
   }
 }
 
-module.exports = Replication; 
+export default Replication; 

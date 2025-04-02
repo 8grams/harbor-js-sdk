@@ -36,4 +36,4 @@ class Additions {
   }
 }
 
-module.exports = Additions; 
+export default Additions; 

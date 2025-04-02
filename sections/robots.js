@@ -93,4 +93,4 @@ class Robots {
   }
 }
 
-module.exports = Robots; 
+export default Robots; 

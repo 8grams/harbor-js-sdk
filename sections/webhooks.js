@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor webhooks
@@ -208,4 +208,4 @@ class Webhooks {
   }
 }
 
-module.exports = Webhooks; 
+export default Webhooks; 

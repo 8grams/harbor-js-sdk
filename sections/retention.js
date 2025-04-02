@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor retention policies
@@ -141,4 +141,4 @@ class Retention {
   }
 }
 
-module.exports = Retention; 
+export default Retention; 

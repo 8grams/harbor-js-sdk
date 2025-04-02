@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor accessories
@@ -25,4 +25,4 @@ class Accessories {
   }
 }
 
-module.exports = Accessories; 
+export default Accessories; 

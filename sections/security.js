@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor security settings and configurations
@@ -70,4 +70,4 @@ class Security {
   }
 }
 
-module.exports = Security; 
+export default Security; 

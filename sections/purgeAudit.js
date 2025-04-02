@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor purge audit operations
@@ -96,4 +96,4 @@ class PurgeAudit {
   }
 }
 
-module.exports = PurgeAudit; 
+export default PurgeAudit; 

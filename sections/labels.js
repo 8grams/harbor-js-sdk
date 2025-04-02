@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor labels
@@ -112,4 +112,4 @@ class Labels {
   }
 }
 
-module.exports = Labels; 
+export default Labels; 

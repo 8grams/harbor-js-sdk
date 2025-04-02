@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor LDAP configuration
@@ -53,4 +53,4 @@ class LDAP {
   }
 }
 
-module.exports = LDAP; 
+export default LDAP; 

@@ -1,4 +1,4 @@
-const FetchUtil = require('../utils/fetch');
+import FetchUtil from '../utils/fetch';
 
 /**
  * Class for managing Harbor system settings and configurations
@@ -199,4 +199,4 @@ class System {
   }
 }
 
-module.exports = System; 
+export default System; 
