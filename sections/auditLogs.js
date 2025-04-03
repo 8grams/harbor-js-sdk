@@ -13,27 +13,30 @@ class AuditLogs {
   }
 
   /**
-   * List audit logs with optional filtering and pagination
-   * @param {Object} options - Query options
-   * @param {string} [options.query] - Search query
-   * @param {string} [options.sort] - Sort field
-   * @param {number} [options.page=1] - Page number
-   * @param {number} [options.pageSize=10] - Number of items per page
+   * This endpoint let user see the recent operation logs of the projects which he is member of
+   * @param {string} [query] - Search query
+   * @param {string} [sort] - Sort field
+   * @param {number} [page=1] - Page number
+   * @param {number} [pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of audit logs
    */
-  async listAuditLogs({
+  async listAuditLogs(
     query,
     sort,
     page = 1,
     pageSize = 10
-  } = {}) {
+  ) {
     const params = new URLSearchParams();
     if (query) params.append('q', query);
     if (sort) params.append('sort', sort);
     params.append('page', page);
     params.append('page_size', pageSize);
 
-    const response = await this.fetchUtil._fetch(`/audit-logs?${params.toString()}`);
+    const response = await this.fetchUtil._fetch(`/audit-logs?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 }

@@ -21,13 +21,16 @@ class UserGroup {
    * @param {string} [options.ldapGroupDn] - Filter by LDAP group DN
    * @returns {Promise<Object>} List of user groups
    */
-  async listUserGroups({ page, pageSize, groupName, ldapGroupDn } = {}) {
-    const response = await this.fetchUtil._fetch('/usergroups', {
-      params: {
-        page,
-        page_size: pageSize,
-        group_name: groupName,
-        ldap_group_dn: ldapGroupDn
+  async listUserGroups({ page = 1, pageSize = 10, groupName, ldapGroupDn } = {}) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('page_size', pageSize);
+    if (groupName) params.append('group_name', groupName);
+    if (ldapGroupDn) params.append('ldap_group_dn', ldapGroupDn);
+
+    const response = await this.fetchUtil._fetch(`/usergroups?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
       }
     });
     return response;
@@ -41,6 +44,9 @@ class UserGroup {
   async createUserGroup(group) {
     const response = await this.fetchUtil._fetch('/usergroups', {
       method: 'POST',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(group)
     });
     return response;
@@ -52,7 +58,11 @@ class UserGroup {
    * @returns {Promise<Object>} Group details
    */
   async getUserGroup(groupId) {
-    const response = await this.fetchUtil._fetch(`/usergroups/${groupId}`);
+    const response = await this.fetchUtil._fetch(`/usergroups/${groupId}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -65,6 +75,9 @@ class UserGroup {
   async updateUserGroup(groupId, group) {
     const response = await this.fetchUtil._fetch(`/usergroups/${groupId}`, {
       method: 'PUT',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(group)
     });
     return response;
@@ -77,7 +90,10 @@ class UserGroup {
    */
   async deleteUserGroup(groupId) {
     await this.fetchUtil._fetch(`/usergroups/${groupId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 
@@ -89,9 +105,15 @@ class UserGroup {
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of users
    */
-  async listGroupUsers(groupId, { page, pageSize } = {}) {
-    const response = await this.fetchUtil._fetch(`/usergroups/${groupId}/users`, {
-      params: { page, page_size: pageSize }
+  async listGroupUsers(groupId, { page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/usergroups/${groupId}/users?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
@@ -105,6 +127,9 @@ class UserGroup {
   async addUserToGroup(groupId, user) {
     const response = await this.fetchUtil._fetch(`/usergroups/${groupId}/users`, {
       method: 'POST',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(user)
     });
     return response;
@@ -118,7 +143,10 @@ class UserGroup {
    */
   async removeUserFromGroup(groupId, userId) {
     await this.fetchUtil._fetch(`/usergroups/${groupId}/users/${userId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 }

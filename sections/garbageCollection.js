@@ -13,7 +13,7 @@ class GarbageCollection {
   }
 
   /**
-   * Get garbage collection history
+   * This endpoint let user get gc execution history.
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number
    * @param {number} [options.pageSize=10] - Number of items per page
@@ -27,7 +27,7 @@ class GarbageCollection {
   }
 
   /**
-   * Get garbage collection status
+   * This endpoint is for get schedule of gc job.
    * @returns {Promise<Object>} Garbage collection status
    */
   async getGCStatus() {
@@ -36,7 +36,7 @@ class GarbageCollection {
   }
 
   /**
-   * Stop garbage collection
+   * Stop the GC execution specified by ID
    * @returns {Promise<void>}
    */
   async stopGC() {
@@ -47,7 +47,7 @@ class GarbageCollection {
   }
 
   /**
-   * Get garbage collection logs
+   * This endpoint let user get gc job logs filtered by specific ID.
    * @param {number} gcId - ID of the garbage collection job
    * @returns {Promise<Object>} Garbage collection logs
    */
@@ -57,7 +57,7 @@ class GarbageCollection {
   }
 
   /**
-   * Get garbage collection schedule
+   * This endpoint is for get schedule of gc job.
    * @returns {Promise<Object>} Garbage collection schedule
    */
   async getGCSchedule() {
@@ -66,7 +66,7 @@ class GarbageCollection {
   }
 
   /**
-   * Create garbage collection schedule
+   * This endpoint is for update gc schedule.
    * @param {Object} schedule - Schedule configuration
    * @returns {Promise<Object>} Created schedule
    */
@@ -79,7 +79,7 @@ class GarbageCollection {
   }
 
   /**
-   * Update garbage collection schedule
+   * This endpoint is for create gc schedule.
    * @param {Object} schedule - Updated schedule configuration
    * @returns {Promise<Object>} Updated schedule
    */

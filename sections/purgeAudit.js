@@ -21,9 +21,17 @@ class PurgeAudit {
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} Purge audit history
    */
-  async getPurgeHistory({ query, sort, page, pageSize } = {}) {
-    const response = await this.fetchUtil._fetch('/system/purgeaudit', {
-      params: { query, sort, page, page_size: pageSize }
+  async getPurgeHistory({ query, sort, page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    if (query) params.append('q', query);
+    if (sort) params.append('sort', sort);
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/system/purgeaudit?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
@@ -34,7 +42,11 @@ class PurgeAudit {
    * @returns {Promise<Object>} Purge job details
    */
   async getPurgeJob(purgeId) {
-    const response = await this.fetchUtil._fetch(`/system/purgeaudit/${purgeId}`);
+    const response = await this.fetchUtil._fetch(`/system/purgeaudit/${purgeId}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -46,6 +58,9 @@ class PurgeAudit {
   async stopPurge(purgeId) {
     await this.fetchUtil._fetch(`/system/purgeaudit/${purgeId}`, {
       method: 'PUT',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify({ action: 'stop' })
     });
   }
@@ -56,7 +71,11 @@ class PurgeAudit {
    * @returns {Promise<Object>} Purge job logs
    */
   async getPurgeJobLog(purgeId) {
-    const response = await this.fetchUtil._fetch(`/system/purgeaudit/${purgeId}/log`);
+    const response = await this.fetchUtil._fetch(`/system/purgeaudit/${purgeId}/log`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -65,7 +84,11 @@ class PurgeAudit {
    * @returns {Promise<Object>} Purge schedule
    */
   async getPurgeSchedule() {
-    const response = await this.fetchUtil._fetch('/system/purgeaudit/schedule');
+    const response = await this.fetchUtil._fetch('/system/purgeaudit/schedule', {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -77,6 +100,9 @@ class PurgeAudit {
   async createPurgeSchedule(schedule) {
     const response = await this.fetchUtil._fetch('/system/purgeaudit/schedule', {
       method: 'POST',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(schedule)
     });
     return response;
@@ -90,6 +116,9 @@ class PurgeAudit {
   async updatePurgeSchedule(schedule) {
     const response = await this.fetchUtil._fetch('/system/purgeaudit/schedule', {
       method: 'PUT',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(schedule)
     });
     return response;

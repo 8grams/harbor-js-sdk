@@ -17,7 +17,11 @@ class Retention {
    * @returns {Promise<Object>} Retention metadata
    */
   async getRetentionMetadata() {
-    const response = await this.fetchUtil._fetch('/retentions/metadatas');
+    const response = await this.fetchUtil._fetch('/retentions/metadatas', {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -29,6 +33,9 @@ class Retention {
   async createRetentionPolicy(policy) {
     const response = await this.fetchUtil._fetch('/retentions', {
       method: 'POST',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(policy)
     });
     return response;
@@ -40,7 +47,11 @@ class Retention {
    * @returns {Promise<Object>} Policy details
    */
   async getRetentionPolicy(id) {
-    const response = await this.fetchUtil._fetch(`/retentions/${id}`);
+    const response = await this.fetchUtil._fetch(`/retentions/${id}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -53,6 +64,9 @@ class Retention {
   async updateRetentionPolicy(id, policy) {
     const response = await this.fetchUtil._fetch(`/retentions/${id}`, {
       method: 'PUT',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(policy)
     });
     return response;
@@ -65,7 +79,10 @@ class Retention {
    */
   async deleteRetentionPolicy(id) {
     await this.fetchUtil._fetch(`/retentions/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 
@@ -79,6 +96,9 @@ class Retention {
   async triggerRetentionExecution(id, { dryRun = false } = {}) {
     const response = await this.fetchUtil._fetch(`/retentions/${id}/executions`, {
       method: 'POST',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify({ dry_run: dryRun })
     });
     return response;
@@ -92,9 +112,15 @@ class Retention {
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of executions
    */
-  async listRetentionExecutions(id, { page, pageSize } = {}) {
-    const response = await this.fetchUtil._fetch(`/retentions/${id}/executions`, {
-      params: { page, page_size: pageSize }
+  async listRetentionExecutions(id, { page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/retentions/${id}/executions?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
@@ -108,6 +134,9 @@ class Retention {
   async stopRetentionExecution(id, executionId) {
     await this.fetchUtil._fetch(`/retentions/${id}/executions/${executionId}`, {
       method: 'PATCH',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify({ action: 'stop' })
     });
   }
@@ -121,9 +150,15 @@ class Retention {
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of tasks
    */
-  async listRetentionTasks(id, executionId, { page, pageSize } = {}) {
-    const response = await this.fetchUtil._fetch(`/retentions/${id}/executions/${executionId}/tasks`, {
-      params: { page, page_size: pageSize }
+  async listRetentionTasks(id, executionId, { page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/retentions/${id}/executions/${executionId}/tasks?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
@@ -136,7 +171,11 @@ class Retention {
    * @returns {Promise<Object>} Task logs
    */
   async getRetentionTaskLog(id, executionId, taskId) {
-    const response = await this.fetchUtil._fetch(`/retentions/${id}/executions/${executionId}/tasks/${taskId}`);
+    const response = await this.fetchUtil._fetch(`/retentions/${id}/executions/${executionId}/tasks/${taskId}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 }

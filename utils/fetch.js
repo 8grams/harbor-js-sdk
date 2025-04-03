@@ -35,6 +35,11 @@ class FetchUtil {
 
     return response.json();
   }
+
+  // generate request id
+  generateRequestId() {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  }
 }
 
-module.exports = FetchUtil; 
+export default FetchUtil; 
