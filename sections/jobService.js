@@ -13,51 +13,11 @@ class JobService {
   }
 
   /**
-   * Get job service status
-   * @returns {Promise<Object>} Job service status
-   */
-  async getJobServiceStatus() {
-    const response = await this.fetchUtil._fetch('/jobservice/status', {
-      headers: {
-        'X-Request-Id': this.fetchUtil.generateRequestId()
-      }
-    });
-    return response;
-  }
-
-  /**
-   * Get job service workers
-   * @returns {Promise<Object>} List of job service workers
-   */
-  async getJobServiceWorkers() {
-    const response = await this.fetchUtil._fetch('/jobservice/workers', {
-      headers: {
-        'X-Request-Id': this.fetchUtil.generateRequestId()
-      }
-    });
-    return response;
-  }
-
-  /**
-   * Get job service queue
+   * list job queue
    * @returns {Promise<Object>} Job service queue information
    */
   async getJobServiceQueue() {
-    const response = await this.fetchUtil._fetch('/jobservice/queue', {
-      headers: {
-        'X-Request-Id': this.fetchUtil.generateRequestId()
-      }
-    });
-    return response;
-  }
-
-  /**
-   * Get job service job details
-   * @param {string} jobId - ID of the job
-   * @returns {Promise<Object>} Job details
-   */
-  async getJobServiceJob(jobId) {
-    const response = await this.fetchUtil._fetch(`/jobservice/jobs/${jobId}`, {
+    const response = await this.fetchUtil._fetch('/jobservice/queues', {
       headers: {
         'X-Request-Id': this.fetchUtil.generateRequestId()
       }
@@ -81,7 +41,7 @@ class JobService {
   }
 
   /**
-   * Get job service job logs
+   * Get job log by job id, it is only used by administrator
    * @param {string} jobId - ID of the job
    * @returns {Promise<Object>} Job logs
    */
@@ -108,7 +68,7 @@ class JobService {
   }
 
   /**
-   * Get workers in pool
+   * Get workers in current pool
    * @param {string} poolId - ID of the pool
    * @returns {Promise<Object>} List of workers in pool
    */
@@ -122,7 +82,7 @@ class JobService {
   }
 
   /**
-   * Stop job
+   * Stop running job
    * @param {string} jobId - ID of the job
    * @returns {Promise<void>}
    */

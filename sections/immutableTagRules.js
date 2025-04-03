@@ -13,7 +13,7 @@ class ImmutableTagRules {
   }
 
   /**
-   * List immutable tag rules for a project
+   * This endpoint returns the immutable tag rules of a project
    * @param {string} projectName - Name of the project
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number
@@ -28,7 +28,7 @@ class ImmutableTagRules {
   }
 
   /**
-   * Create an immutable tag rule
+   * This endpoint add an immutable tag rule to the project
    * @param {string} projectName - Name of the project
    * @param {Object} rule - Rule configuration
    * @returns {Promise<Object>} Created rule
@@ -42,7 +42,7 @@ class ImmutableTagRules {
   }
 
   /**
-   * Update an immutable tag rule
+   * Update the immutable tag rule or enable or disable the rule
    * @param {string} projectName - Name of the project
    * @param {number} ruleId - ID of the rule to update
    * @param {Object} rule - Updated rule configuration
@@ -57,7 +57,7 @@ class ImmutableTagRules {
   }
 
   /**
-   * Delete an immutable tag rule
+   * Delete the immutable tag rule.
    * @param {string} projectName - Name of the project
    * @param {number} ruleId - ID of the rule to delete
    * @returns {Promise<void>}

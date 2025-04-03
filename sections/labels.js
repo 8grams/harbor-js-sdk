@@ -13,7 +13,7 @@ class Labels {
   }
 
   /**
-   * List labels
+   * This endpoint let user list labels by name, scope and project_id
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number
    * @param {number} [options.pageSize=10] - Number of items per page
@@ -36,7 +36,7 @@ class Labels {
   }
 
   /**
-   * Create a label
+   * This endpoint let user creates a label.
    * @param {Object} label - Label configuration
    * @returns {Promise<Object>} Created label
    */
@@ -49,7 +49,7 @@ class Labels {
   }
 
   /**
-   * Get label details
+   * This endpoint let user get the label by specific ID.
    * @param {number} labelId - ID of the label
    * @returns {Promise<Object>} Label details
    */
@@ -59,7 +59,7 @@ class Labels {
   }
 
   /**
-   * Update a label
+   * This endpoint let user update label properties.
    * @param {number} labelId - ID of the label
    * @param {Object} label - Updated label configuration
    * @returns {Promise<Object>} Updated label
@@ -73,7 +73,7 @@ class Labels {
   }
 
   /**
-   * Delete a label
+   * Delete the label specified by ID.
    * @param {number} labelId - ID of the label
    * @returns {Promise<void>}
    */

@@ -13,7 +13,7 @@ class Projects {
   }
 
   /**
-   * List projects
+   * This endpoint returns projects created by Harbor.
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number
    * @param {number} [options.pageSize=10] - Number of items per page
@@ -51,7 +51,7 @@ class Projects {
   }
 
   /**
-   * Get project details
+   * This endpoint returns specific project information by project ID.
    * @param {string} projectName - Name of the project
    * @returns {Promise<Object>} Project details
    */
@@ -61,7 +61,7 @@ class Projects {
   }
 
   /**
-   * Update a project
+   * This endpoint is aimed to update the properties of a project.
    * @param {string} projectName - Name of the project
    * @param {Object} project - Updated project configuration
    * @returns {Promise<Object>} Updated project
@@ -75,7 +75,7 @@ class Projects {
   }
 
   /**
-   * Delete a project
+   * This endpoint is aimed to delete project by project ID.
    * @param {string} projectName - Name of the project
    * @returns {Promise<void>}
    */
@@ -86,7 +86,7 @@ class Projects {
   }
 
   /**
-   * Get project summary
+   * Get summary of the project.
    * @param {string} projectName - Name of the project
    * @returns {Promise<Object>} Project summary
    */
@@ -96,7 +96,7 @@ class Projects {
   }
 
   /**
-   * Get project logs
+   * Get recent logs of the projects
    * @param {string} projectName - Name of the project
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number
@@ -111,7 +111,7 @@ class Projects {
   }
 
   /**
-   * Get project members
+   * Get all project member information
    * @param {string} projectName - Name of the project
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number
@@ -127,7 +127,7 @@ class Projects {
   }
 
   /**
-   * Add project member
+   * Create project member relationship, the member can be one of the user_member and group_member, The user_member need to specify user_id or username. If the user already exist in harbor DB, specify the user_id, If does not exist in harbor DB, it will SearchAndOnBoard the user. The group_member need to specify id or ldap_group_dn. If the group already exist in harbor DB. specify the user group's id, If does not exist, it will SearchAndOnBoard the group.
    * @param {string} projectName - Name of the project
    * @param {Object} member - Member configuration
    * @returns {Promise<Object>} Added member
@@ -141,7 +141,7 @@ class Projects {
   }
 
   /**
-   * Update project member
+   * Update project member relationship
    * @param {string} projectName - Name of the project
    * @param {number} userId - User ID
    * @param {Object} role - Role configuration
@@ -168,7 +168,7 @@ class Projects {
   }
 
   /**
-   * Get project deletable status
+   * Get the deletable status of the project
    * @param {string} projectNameOrId - Name or ID of the project
    * @returns {Promise<Object>} Project deletable status
    */
@@ -177,7 +177,7 @@ class Projects {
   }
 
   /**
-   * Get project scanner
+   * Get the scanner registration of the specified project. If no scanner registration is configured for the specified project, the system default scanner registration will be returned.
    * @param {string} projectNameOrId - Name or ID of the project
    * @returns {Promise<Object>} Project scanner
    */
@@ -186,7 +186,7 @@ class Projects {
   }
 
   /**
-   * Set project scanner
+   * Set one of the system configured scanner registration as the indepndent scanner of the specified project.
    * @param {string} projectNameOrId - Name or ID of the project
    * @param {Object} payload - Scanner configuration
    * @returns {Promise<Object>} Updated project scanner
@@ -199,7 +199,7 @@ class Projects {
   }
 
   /**
-   * List scanner candidates
+   * Retrieve the system configured scanner registrations as candidates of setting project level scanner.
    * @param {string} projectNameOrId - Name or ID of the project
    * @param {Object} options - Query options
    * @param {string} [options.query] - Search query

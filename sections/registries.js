@@ -19,7 +19,7 @@ class Registries {
   }
 
   /**
-   * List registry provider infos
+   * List all registered registry provider information
    * @returns {Promise<Object>} List of registry provider infos
    */
   async listRegistryProviderInfos() {
@@ -27,7 +27,7 @@ class Registries {
   }
 
   /**
-   * Create a new registry
+   * Create a registry
    * @param {Object} registry - Registry configuration
    * @returns {Promise<Object>} The created registry
    */
@@ -40,7 +40,7 @@ class Registries {
   }
 
   /**
-   * List registries with optional filtering and pagination
+   * List the registries
    * @param {Object} options - Query options
    * @param {string} [options.query] - Search query
    * @param {string} [options.sort] - Sort field
@@ -62,7 +62,7 @@ class Registries {
   }
 
   /**
-   * Ping a registry to verify connectivity
+   * Check status of a registry
    * @param {Object} registry - Registry configuration to test
    * @returns {Promise<Object>} Ping result
    */
@@ -75,7 +75,7 @@ class Registries {
   }
 
   /**
-   * Get a registry by ID
+   * Get the specific registry
    * @param {number} id - The ID of the registry
    * @returns {Promise<Object>} Registry details
    */
@@ -85,7 +85,7 @@ class Registries {
   }
 
   /**
-   * Update a registry
+   * Update the registry
    * @param {number} id - The ID of the registry
    * @param {Object} registry - Updated registry configuration
    * @returns {Promise<Object>} Updated registry details
@@ -99,7 +99,7 @@ class Registries {
   }
 
   /**
-   * Delete a registry
+   * Delete the specific registry
    * @param {number} id - The ID of the registry
    * @returns {Promise<void>}
    */
@@ -110,7 +110,7 @@ class Registries {
   }
 
   /**
-   * Get registry information
+   * Get the registry info
    * @param {number} id - The ID of the registry
    * @returns {Promise<Object>} Registry information
    */

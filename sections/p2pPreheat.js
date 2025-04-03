@@ -13,7 +13,7 @@ class P2pPreheat {
   }
 
   /**
-   * List P2P preheat instances
+   * List P2P provider instances
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number
    * @param {number} [options.pageSize=10] - Number of items per page
@@ -27,7 +27,7 @@ class P2pPreheat {
   }
 
   /**
-   * Create a P2P preheat instance
+   * Create p2p provider instances
    * @param {Object} instance - Instance configuration
    * @returns {Promise<Object>} Created instance
    */
@@ -40,7 +40,7 @@ class P2pPreheat {
   }
 
   /**
-   * Get P2P preheat instance details
+   * Get a P2P provider instance
    * @param {string} instanceName - Name of the instance
    * @returns {Promise<Object>} Instance details
    */
@@ -50,7 +50,7 @@ class P2pPreheat {
   }
 
   /**
-   * Update a P2P preheat instance
+   * Update the specified P2P provider instance
    * @param {string} instanceName - Name of the instance
    * @param {Object} instance - Updated instance configuration
    * @returns {Promise<Object>} Updated instance
@@ -64,7 +64,7 @@ class P2pPreheat {
   }
 
   /**
-   * Delete a P2P preheat instance
+   * Delete the specified P2P provider instance
    * @param {string} instanceName - Name of the instance
    * @returns {Promise<void>}
    */
@@ -72,65 +72,6 @@ class P2pPreheat {
     await this.fetchUtil._fetch(`/p2p/preheat/instances/${instanceName}`, {
       method: 'DELETE'
     });
-  }
-
-  /**
-   * List P2P preheat tasks
-   * @param {Object} options - Query options
-   * @param {number} [options.page=1] - Page number
-   * @param {number} [options.pageSize=10] - Number of items per page
-   * @returns {Promise<Object>} List of P2P preheat tasks
-   */
-  async listTasks({ page, pageSize } = {}) {
-    const response = await this.fetchUtil._fetch('/p2p/preheat/tasks', {
-      params: { page, page_size: pageSize }
-    });
-    return response;
-  }
-
-  /**
-   * Create a P2P preheat task
-   * @param {Object} task - Task configuration
-   * @returns {Promise<Object>} Created task
-   */
-  async createTask(task) {
-    const response = await this.fetchUtil._fetch('/p2p/preheat/tasks', {
-      method: 'POST',
-      body: JSON.stringify(task)
-    });
-    return response;
-  }
-
-  /**
-   * Get P2P preheat task details
-   * @param {string} taskId - ID of the task
-   * @returns {Promise<Object>} Task details
-   */
-  async getTask(taskId) {
-    const response = await this.fetchUtil._fetch(`/p2p/preheat/tasks/${taskId}`);
-    return response;
-  }
-
-  /**
-   * Stop a P2P preheat task
-   * @param {string} taskId - ID of the task
-   * @returns {Promise<void>}
-   */
-  async stopTask(taskId) {
-    await this.fetchUtil._fetch(`/p2p/preheat/tasks/${taskId}`, {
-      method: 'PUT',
-      body: JSON.stringify({ action: 'stop' })
-    });
-  }
-
-  /**
-   * Get P2P preheat task logs
-   * @param {string} taskId - ID of the task
-   * @returns {Promise<Object>} Task logs
-   */
-  async getTaskLog(taskId) {
-    const response = await this.fetchUtil._fetch(`/p2p/preheat/tasks/${taskId}/log`);
-    return response;
   }
 }
 

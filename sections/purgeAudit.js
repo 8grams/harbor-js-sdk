@@ -13,7 +13,7 @@ class PurgeAudit {
   }
 
   /**
-   * Get purge audit history
+   * get purge job execution history.
    * @param {Object} options - Query options
    * @param {string} [options.query] - Search query
    * @param {string} [options.sort] - Sort field
@@ -37,7 +37,7 @@ class PurgeAudit {
   }
 
   /**
-   * Get purge job details
+   * This endpoint let user get purge job status filtered by specific ID.
    * @param {number} purgeId - ID of the purge job
    * @returns {Promise<Object>} Purge job details
    */
@@ -51,7 +51,7 @@ class PurgeAudit {
   }
 
   /**
-   * Stop a purge job
+   * Stop the purge audit log execution specified by ID
    * @param {number} purgeId - ID of the purge job
    * @returns {Promise<void>}
    */
@@ -66,7 +66,7 @@ class PurgeAudit {
   }
 
   /**
-   * Get purge job logs
+   * This endpoint let user get purge job logs filtered by specific ID.
    * @param {number} purgeId - ID of the purge job
    * @returns {Promise<Object>} Purge job logs
    */
@@ -80,7 +80,7 @@ class PurgeAudit {
   }
 
   /**
-   * Get purge schedule
+   * This endpoint is for get schedule of purge job.
    * @returns {Promise<Object>} Purge schedule
    */
   async getPurgeSchedule() {
@@ -93,7 +93,7 @@ class PurgeAudit {
   }
 
   /**
-   * Create purge schedule
+   * This endpoint is for update purge job schedule.
    * @param {Object} schedule - Schedule configuration
    * @returns {Promise<Object>} Created schedule
    */
@@ -109,7 +109,7 @@ class PurgeAudit {
   }
 
   /**
-   * Update purge schedule
+   * This endpoint is for update purge job schedule.
    * @param {Object} schedule - Updated schedule configuration
    * @returns {Promise<Object>} Updated schedule
    */

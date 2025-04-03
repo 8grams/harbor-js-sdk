@@ -11,7 +11,7 @@ class Quotas {
   }
 
   /**
-   * List quotas with optional filtering and pagination
+   * List quotas
    * @param {Object} options - Query options
    * @param {string} [options.reference] - Reference type
    * @param {string} [options.referenceId] - Reference ID
@@ -33,7 +33,7 @@ class Quotas {
   }
 
   /**
-   * Get a quota by ID
+   * Get the specified quota
    * @param {number} id - The ID of the quota
    * @returns {Promise<Object>} The quota details
    */
@@ -43,7 +43,7 @@ class Quotas {
   }
 
   /**
-   * Update a quota's hard limits
+   * Update hard limits of the specified quota
    * @param {number} id - The ID of the quota
    * @param {Object} hard - The new hard limits
    * @returns {Promise<Object>} The updated quota

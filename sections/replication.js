@@ -44,7 +44,7 @@ class Replication {
   }
 
   /**
-   * Create replication policy
+   * Create a replication policy
    * @param {Object} policy - Policy configuration
    * @returns {Promise<Object>} Created policy
    */
@@ -60,7 +60,7 @@ class Replication {
   }
 
   /**
-   * Get replication policy details
+   * Get the specific replication policy
    * @param {number} id - ID of the policy
    * @returns {Promise<Object>} Policy details
    */
@@ -74,7 +74,7 @@ class Replication {
   }
 
   /**
-   * Update replication policy
+   * Update the replication policy
    * @param {number} id - ID of the policy
    * @param {Object} policy - Updated policy configuration
    * @returns {Promise<Object>} Updated policy
@@ -91,7 +91,7 @@ class Replication {
   }
 
   /**
-   * Delete replication policy
+   * Delete the specific replication policy
    * @param {number} id - ID of the policy
    * @returns {Promise<void>}
    */
@@ -139,7 +139,7 @@ class Replication {
   }
 
   /**
-   * Start replication
+   * Start one replication execution according to the policy
    * @param {Object} execution - Execution configuration
    * @returns {Promise<Object>} Started execution
    */
@@ -155,7 +155,7 @@ class Replication {
   }
 
   /**
-   * Get replication execution details
+   * Get the replication execution specified by ID
    * @param {number} id - ID of the execution
    * @returns {Promise<Object>} Execution details
    */
@@ -169,7 +169,7 @@ class Replication {
   }
 
   /**
-   * Stop replication execution
+   * Stop the replication execution specified by ID
    * @param {number} id - ID of the execution
    * @returns {Promise<void>}
    */
@@ -184,7 +184,7 @@ class Replication {
   }
 
   /**
-   * List replication tasks
+   * List replication tasks for a specific execution
    * @param {number} id - ID of the execution
    * @param {string} [status] - Filter by status
    * @param {string} [resourceType] - Filter by resource type
@@ -217,7 +217,7 @@ class Replication {
   }
 
   /**
-   * Get replication task log
+   * Get the log of the specific replication task
    * @param {number} id - ID of the execution
    * @param {number} taskId - ID of the task
    * @returns {Promise<Object>} Task log
@@ -245,7 +245,7 @@ class Replication {
   }
 
   /**
-   * List registry provider information
+   * List all registered registry provider information
    * @returns {Promise<Object>} List of registry provider information
    */
   async listRegistryProviderInfos() {
@@ -258,7 +258,7 @@ class Replication {
   }
 
   /**
-   * Create registry
+   * Create a registry
    * @param {Object} registry - Registry configuration
    * @returns {Promise<Object>} Created registry
    */
@@ -274,7 +274,7 @@ class Replication {
   }
 
   /**
-   * List registries
+   * List the registries
    * @param {string} [query] - Search query
    * @param {string} [sort] - Sort field
    * @param {string} [name] - Filter by name
@@ -305,7 +305,7 @@ class Replication {
   }
 
   /**
-   * Ping registry
+   * Check status of a registry
    * @param {Object} registry - Registry configuration
    * @returns {Promise<Object>} Registry ping result
    */
@@ -318,7 +318,7 @@ class Replication {
   }
 
   /**
-   * Get registry details
+   * Get the specific registry
    * @param {number} id - ID of the registry
    * @returns {Promise<Object>} Registry details
    */
@@ -328,7 +328,7 @@ class Replication {
   }
 
   /**
-   * Update registry
+   * Update the registry
    * @param {number} id - ID of the registry
    * @param {Object} registry - Updated registry configuration
    * @returns {Promise<Object>} Updated registry
@@ -342,7 +342,7 @@ class Replication {
   }
 
   /**
-   * Delete registry
+   * Delete the specific registry
    * @param {number} id - ID of the registry
    * @returns {Promise<void>}
    */
@@ -353,7 +353,7 @@ class Replication {
   }
 
   /**
-   * Get registry information
+   * Get the registry info
    * @param {number} id - ID of the registry
    * @returns {Promise<Object>} Registry information
    */
