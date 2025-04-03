@@ -13,7 +13,7 @@ class Webhooks {
   }
 
   /**
-   * List webhooks for a project
+   * This endpoint returns webhook policies of a project.
    * @param {string} projectName - Name of the project
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number
@@ -28,7 +28,7 @@ class Webhooks {
   }
 
   /**
-   * Create a webhook
+   * This endpoint create a webhook policy if the project does not have one.
    * @param {string} projectName - Name of the project
    * @param {Object} webhook - Webhook configuration
    * @returns {Promise<Object>} Created webhook
@@ -42,7 +42,7 @@ class Webhooks {
   }
 
   /**
-   * Get a webhook
+   * This endpoint returns specified webhook policy of a project.
    * @param {string} projectName - Name of the project
    * @param {number} webhookId - ID of the webhook
    * @returns {Promise<Object>} Webhook details
@@ -53,7 +53,7 @@ class Webhooks {
   }
 
   /**
-   * Update a webhook
+   * This endpoint is aimed to update the webhook policy of a project.
    * @param {string} projectName - Name of the project
    * @param {number} webhookId - ID of the webhook
    * @param {Object} webhook - Updated webhook configuration
@@ -68,7 +68,7 @@ class Webhooks {
   }
 
   /**
-   * Delete a webhook
+   * This endpoint is aimed to delete webhookpolicy of a project.
    * @param {string} projectName - Name of the project
    * @param {number} webhookId - ID of the webhook
    * @returns {Promise<void>}
@@ -80,7 +80,7 @@ class Webhooks {
   }
 
   /**
-   * List webhook jobs
+   * This endpoint returns webhook jobs of a project.
    * @param {string} projectName - Name of the project
    * @param {number} webhookId - ID of the webhook
    * @param {Object} options - Query options
@@ -96,7 +96,7 @@ class Webhooks {
   }
 
   /**
-   * List webhook policies
+   * This endpoint returns webhook policies of a project.
    * @param {string} projectNameOrId - Name or ID of the project
    * @param {Object} options - Query options
    * @param {string} [options.query] - Query string
@@ -112,7 +112,7 @@ class Webhooks {
   }
 
   /**
-   * Create a webhook policy
+   * This endpoint create a webhook policy if the project does not have one.
    * @param {string} projectNameOrId - Name or ID of the project
    * @param {Object} policy - Webhook policy configuration
    * @returns {Promise<Object>} Created webhook policy
@@ -125,7 +125,7 @@ class Webhooks {
   }
 
   /**
-   * Get a webhook policy
+   * This endpoint returns specified webhook policy of a project.
    * @param {string} projectNameOrId - Name or ID of the project
    * @param {number} policyId - ID of the webhook policy
    * @returns {Promise<Object>} Webhook policy details
@@ -135,7 +135,7 @@ class Webhooks {
   }
 
   /**
-   * Update a webhook policy
+   * This endpoint is aimed to update the webhook policy of a project.
    * @param {string} projectNameOrId - Name or ID of the project
    * @param {number} policyId - ID of the webhook policy
    * @param {Object} policy - Updated webhook policy configuration
@@ -149,7 +149,7 @@ class Webhooks {
   }
 
   /**
-   * Delete a webhook policy
+   * This endpoint is aimed to delete webhookpolicy of a project.
    * @param {string} projectNameOrId - Name or ID of the project
    * @param {number} policyId - ID of the webhook policy
    * @returns {Promise<void>}
@@ -161,7 +161,7 @@ class Webhooks {
   }
 
   /**
-   * List webhook executions
+   * This endpoint returns the tasks of a specific webhook execution.
    * @param {string} projectNameOrId - Name or ID of the project
    * @param {number} policyId - ID of the webhook policy
    * @param {Object} options - Query options
@@ -178,7 +178,7 @@ class Webhooks {
   }
 
   /**
-   * Get a webhook task log
+   * This endpoint returns the logs of a specific webhook task.
    * @param {string} projectNameOrId - Name or ID of the project
    * @param {number} policyId - ID of the webhook policy
    * @param {number} executionId - ID of the webhook execution
@@ -190,7 +190,7 @@ class Webhooks {
   }
 
   /**
-   * Get the last trigger of a webhook
+   * This endpoint returns last trigger information of project webhook policy.
    * @param {string} projectNameOrId - Name or ID of the project
    * @returns {Promise<Object>} Last trigger of a webhook
    */ 
@@ -199,7 +199,7 @@ class Webhooks {
   }
 
   /**
-   * Get supported event types
+   * Get supported event types and notify types.
    * @param {string} projectNameOrId - Name or ID of the project
    * @returns {Promise<Object>} Supported event types
    */ 

@@ -3,7 +3,7 @@ import FetchUtil from '../utils/fetch';
 /**
  * Class for managing Harbor user groups
  */
-class UserGroup {
+class UserGroups {
   /**
    * Create a UserGroup instance
    * @param {FetchUtil} fetchUtil - The fetch utility instance
@@ -13,7 +13,7 @@ class UserGroup {
   }
 
   /**
-   * List user groups
+   * Get all user groups information, it is open for system admin
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number
    * @param {number} [options.pageSize=10] - Number of items per page
@@ -37,7 +37,7 @@ class UserGroup {
   }
 
   /**
-   * Create a user group
+   * Create user group information
    * @param {Object} group - Group configuration
    * @returns {Promise<Object>} Created group
    */
@@ -53,7 +53,7 @@ class UserGroup {
   }
 
   /**
-   * Get user group details
+   * Get user group information
    * @param {number} groupId - ID of the group
    * @returns {Promise<Object>} Group details
    */
@@ -67,7 +67,7 @@ class UserGroup {
   }
 
   /**
-   * Update a user group
+   * Update user group information
    * @param {number} groupId - ID of the group
    * @param {Object} group - Updated group configuration
    * @returns {Promise<Object>} Updated group
@@ -84,7 +84,7 @@ class UserGroup {
   }
 
   /**
-   * Delete a user group
+   * Delete user group
    * @param {number} groupId - ID of the group
    * @returns {Promise<void>}
    */
@@ -117,38 +117,6 @@ class UserGroup {
     });
     return response;
   }
-
-  /**
-   * Add user to group
-   * @param {number} groupId - ID of the group
-   * @param {Object} user - User configuration
-   * @returns {Promise<Object>} Added user
-   */
-  async addUserToGroup(groupId, user) {
-    const response = await this.fetchUtil._fetch(`/usergroups/${groupId}/users`, {
-      method: 'POST',
-      headers: {
-        'X-Request-Id': this.fetchUtil.generateRequestId()
-      },
-      body: JSON.stringify(user)
-    });
-    return response;
-  }
-
-  /**
-   * Remove user from group
-   * @param {number} groupId - ID of the group
-   * @param {number} userId - ID of the user
-   * @returns {Promise<void>}
-   */
-  async removeUserFromGroup(groupId, userId) {
-    await this.fetchUtil._fetch(`/usergroups/${groupId}/users/${userId}`, {
-      method: 'DELETE',
-      headers: {
-        'X-Request-Id': this.fetchUtil.generateRequestId()
-      }
-    });
-  }
 }
 
-export default UserGroup; 
+export default UserGroups; 

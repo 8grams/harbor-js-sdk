@@ -13,7 +13,7 @@ class Retention {
   }
 
   /**
-   * Get retention metadata
+   * Get Retention Metadatas.
    * @returns {Promise<Object>} Retention metadata
    */
   async getRetentionMetadata() {
@@ -26,7 +26,7 @@ class Retention {
   }
 
   /**
-   * Create a retention policy
+   * Create Retention Policy, you can reference metadatas API for the policy model. You can check project metadatas to find whether a retention policy is already binded. This method should only be called when no retention policy binded to project yet.
    * @param {Object} policy - Policy configuration
    * @returns {Promise<Object>} Created policy
    */
@@ -42,7 +42,7 @@ class Retention {
   }
 
   /**
-   * Get a retention policy
+   * Get Retention Policy.
    * @param {number} id - Policy ID
    * @returns {Promise<Object>} Policy details
    */
@@ -56,7 +56,7 @@ class Retention {
   }
 
   /**
-   * Update a retention policy
+   * Update Retention Policy, you can reference metadatas API for the policy model. You can check project metadatas to find whether a retention policy is already binded. This method should only be called when retention policy has already binded to project.
    * @param {number} id - Policy ID
    * @param {Object} policy - Updated policy configuration
    * @returns {Promise<Object>} Updated policy
@@ -73,7 +73,7 @@ class Retention {
   }
 
   /**
-   * Delete a retention policy
+   * Delete Retention Policy, you can reference metadatas API for the policy model. You can check project metadatas to find whether a retention policy is already binded. This method should only be called when retention policy has already binded to project.
    * @param {number} id - Policy ID
    * @returns {Promise<void>}
    */
@@ -87,7 +87,7 @@ class Retention {
   }
 
   /**
-   * Trigger a retention execution
+   * Trigger a Retention Execution, if dry_run is True, nothing would be deleted actually.
    * @param {number} id - Policy ID
    * @param {Object} options - Execution options
    * @param {boolean} [options.dryRun=false] - Whether to perform a dry run
@@ -105,7 +105,7 @@ class Retention {
   }
 
   /**
-   * List retention executions
+   * Get Retention executions, execution status may be delayed before job service schedule it up.
    * @param {number} id - Policy ID
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number
@@ -126,7 +126,7 @@ class Retention {
   }
 
   /**
-   * Stop a retention execution
+   * Stop a Retention execution, only support "stop" action now.
    * @param {number} id - Policy ID
    * @param {number} executionId - Execution ID
    * @returns {Promise<void>}
@@ -142,7 +142,7 @@ class Retention {
   }
 
   /**
-   * List retention tasks
+   * Get Retention tasks, each repository as a task.
    * @param {number} id - Policy ID
    * @param {number} executionId - Execution ID
    * @param {Object} options - Query options
@@ -164,7 +164,7 @@ class Retention {
   }
 
   /**
-   * Get retention task logs
+   * Get Retention job task log, tags ratain or deletion detail will be shown in a table.
    * @param {number} id - Policy ID
    * @param {number} executionId - Execution ID
    * @param {number} taskId - Task ID

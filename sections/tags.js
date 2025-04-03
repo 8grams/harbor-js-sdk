@@ -13,7 +13,7 @@ class Tags {
   }
 
   /**
-   * List tags for a repository
+   * List tags of the specific artifact
    * @param {string} projectName - Name of the project
    * @param {string} repositoryName - Name of the repository
    * @param {Object} options - Query options
@@ -31,19 +31,7 @@ class Tags {
   }
 
   /**
-   * Get tag details
-   * @param {string} projectName - Name of the project
-   * @param {string} repositoryName - Name of the repository
-   * @param {string} tag - Tag name
-   * @returns {Promise<Object>} Tag details
-   */
-  async getTag(projectName, repositoryName, tag) {
-    const response = await this.fetchUtil._fetch(`/repositories/${projectName}/${repositoryName}/tags/${tag}`);
-    return response;
-  }
-
-  /**
-   * Delete a tag
+   * Delete the tag of the specified artifact
    * @param {string} projectName - Name of the project
    * @param {string} repositoryName - Name of the repository
    * @param {string} tag - Tag name
@@ -53,30 +41,6 @@ class Tags {
     await this.fetchUtil._fetch(`/repositories/${projectName}/${repositoryName}/tags/${tag}`, {
       method: 'DELETE'
     });
-  }
-
-  /**
-   * Get tag vulnerabilities
-   * @param {string} projectName - Name of the project
-   * @param {string} repositoryName - Name of the repository
-   * @param {string} tag - Tag name
-   * @returns {Promise<Object>} Tag vulnerabilities
-   */
-  async getTagVulnerabilities(projectName, repositoryName, tag) {
-    const response = await this.fetchUtil._fetch(`/repositories/${projectName}/${repositoryName}/tags/${tag}/vulnerability/details`);
-    return response;
-  }
-
-  /**
-   * Get tag manifest
-   * @param {string} projectName - Name of the project
-   * @param {string} repositoryName - Name of the repository
-   * @param {string} tag - Tag name
-   * @returns {Promise<Object>} Tag manifest
-   */
-  async getTagManifest(projectName, repositoryName, tag) {
-    const response = await this.fetchUtil._fetch(`/repositories/${projectName}/${repositoryName}/tags/${tag}/manifest`);
-    return response;
   }
 }
 

@@ -13,7 +13,7 @@ class Scans {
   }
 
   /**
-   * Get the latest scan all metrics
+   * Get the metrics of the latest scan all process
    * @returns {Promise<Object>} Latest scan metrics
    */
   async getLatestScanAllMetrics() {
@@ -26,7 +26,7 @@ class Scans {
   }
 
   /**
-   * Get the latest scheduled scan all metrics
+   * Get the metrics of the latest scheduled scan all process
    * @returns {Promise<Object>} Latest scheduled scan metrics
    */
   async getLatestScheduledScanAllMetrics() {
@@ -39,7 +39,7 @@ class Scans {
   }
 
   /**
-   * Scan an artifact
+   * Scan the specified artifact
    * @param {string} projectName - The name of the project
    * @param {string} repositoryName - The name of the repository
    * @param {string} reference - The reference of the artifact
@@ -57,7 +57,7 @@ class Scans {
   }
 
   /**
-   * Stop a scan
+   * Cancelling a scan job for a particular artifact
    * @param {string} projectName - The name of the project
    * @param {string} repositoryName - The name of the repository
    * @param {string} reference - The reference of the artifact
@@ -75,7 +75,7 @@ class Scans {
   }
 
   /**
-   * Get the report log
+   * Get the log of the scan report
    * @param {string} projectName - The name of the project
    * @param {string} repositoryName - The name of the repository
    * @param {string} reference - The reference of the artifact

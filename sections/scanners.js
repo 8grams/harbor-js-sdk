@@ -13,7 +13,7 @@ class Scanners {
   }
 
   /**
-   * List scanners with optional filtering and pagination
+   * Returns a list of currently configured scanner registrations.
    * @param {Object} options - Query options
    * @param {string} [options.query] - Search query
    * @param {string} [options.sort] - Sort field
@@ -29,7 +29,7 @@ class Scanners {
   }
 
   /**
-   * Create a new scanner
+   * Creats a new scanner registration with the given data.
    * @param {Object} registration - Scanner registration configuration
    * @returns {Promise<Object>} The created scanner
    */
@@ -42,7 +42,7 @@ class Scanners {
   }
 
   /**
-   * Ping a scanner to verify connectivity
+   * Pings scanner adapter to test endpoint URL and authorization settings.
    * @param {Object} settings - Scanner settings to test
    * @returns {Promise<Object>} Ping result
    */
@@ -55,7 +55,7 @@ class Scanners {
   }
 
   /**
-   * Get a scanner by ID
+   * Retruns the details of the specified scanner registration.
    * @param {number} registrationId - The ID of the scanner
    * @returns {Promise<Object>} Scanner details
    */
@@ -65,7 +65,7 @@ class Scanners {
   }
 
   /**
-   * Update a scanner
+   * Updates the specified scanner registration.
    * @param {number} registrationId - The ID of the scanner
    * @param {Object} registration - Updated scanner configuration
    * @returns {Promise<Object>} Updated scanner details
@@ -79,7 +79,7 @@ class Scanners {
   }
 
   /**
-   * Delete a scanner
+   * Deletes the specified scanner registration.
    * @param {number} registrationId - The ID of the scanner
    * @returns {Promise<void>}
    */
@@ -90,7 +90,7 @@ class Scanners {
   }
 
   /**
-   * Set a scanner as the default scanner
+   * Set the specified scanner registration as the system default one.
    * @param {number} registrationId - The ID of the scanner
    * @returns {Promise<Object>} Updated scanner details
    */
@@ -103,7 +103,7 @@ class Scanners {
   }
 
   /**
-   * Get scanner metadata
+   * Get the metadata of the specified scanner registration, including the capabilities and customized properties.
    * @param {number} registrationId - The ID of the scanner
    * @returns {Promise<Object>} Scanner metadata
    */
@@ -113,7 +113,7 @@ class Scanners {
   }
 
   /**
-   * Get project scanner
+   * Get the scanner registration of the specified project. If no scanner registration is configured for the specified project, the system default scanner registration will be returned.
    * @param {string} projectNameOrId - The name or ID of the project
    * @returns {Promise<Object>} Project scanner
    */
@@ -122,7 +122,7 @@ class Scanners {
   }
 
   /**
-   * Set project scanner
+   * Set one of the system configured scanner registration as the indepndent scanner of the specified project.
    * @param {string} projectNameOrId - The name or ID of the project
    * @param {Object} payload - The payload to set the project scanner
    * @returns {Promise<Object>} The updated project scanner
@@ -135,7 +135,7 @@ class Scanners {
   }
 
   /**
-   * List scanner candidates
+   * Retrieve the system configured scanner registrations as candidates of setting project level scanner.
    * @param {string} projectNameOrId - The name or ID of the project
    * @param {Object} options - The options for listing scanner candidates
    * @param {string} [options.query] - The query to search for

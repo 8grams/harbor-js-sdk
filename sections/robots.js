@@ -11,7 +11,7 @@ class Robots {
   }
 
   /**
-   * List robot accounts with optional filtering and pagination
+   * Get all robot accounts of specified project
    * @param {Object} options - Query options
    * @param {string} [options.query] - Search query
    * @param {string} [options.sort] - Sort field
@@ -31,7 +31,7 @@ class Robots {
   }
 
   /**
-   * Create a new robot account
+   * Create a robot account
    * @param {Object} robot - Robot account configuration
    * @returns {Promise<Object>} The created robot account
    */
@@ -44,7 +44,7 @@ class Robots {
   }
 
   /**
-   * Get a robot account by ID
+   * This endpoint returns specific robot account information by robot ID.
    * @param {number} robotId - The ID of the robot account
    * @returns {Promise<Object>} The robot account details
    */
@@ -54,7 +54,7 @@ class Robots {
   }
 
   /**
-   * Update a robot account
+   * Used to disable/enable a specified robot account.
    * @param {number} robotId - The ID of the robot account
    * @param {Object} robot - Updated robot account configuration
    * @returns {Promise<Object>} The updated robot account
@@ -68,7 +68,7 @@ class Robots {
   }
 
   /**
-   * Refresh a robot account's secret
+   * Refresh the robot secret
    * @param {number} robotId - The ID of the robot account
    * @param {Object} robotSec - New secret configuration
    * @returns {Promise<Object>} The updated robot account
@@ -82,7 +82,7 @@ class Robots {
   }
 
   /**
-   * Delete a robot account
+   * This endpoint deletes specific robot account information by robot ID.
    * @param {number} robotId - The ID of the robot account
    * @returns {Promise<void>}
    */

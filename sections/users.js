@@ -11,7 +11,7 @@ class Users {
   }
 
   /**
-   * List users with optional filtering and pagination
+   * List users
    * @param {Object} options - Query options
    * @param {string} [options.query] - Search query
    * @param {string} [options.sort] - Sort field
@@ -27,7 +27,7 @@ class Users {
   }
 
   /**
-   * Create a new user
+   * This API can be used only when the authentication mode is for local DB. When self registration is disabled.
    * @param {Object} userReq - User creation request
    * @returns {Promise<Object>} The created user
    */
@@ -40,7 +40,7 @@ class Users {
   }
 
   /**
-   * Get current user information
+   * Get current user info.
    * @returns {Promise<Object>} Current user details
    */
   async getCurrentUserInfo() {
@@ -49,7 +49,7 @@ class Users {
   }
 
   /**
-   * Search for users by username
+   * This endpoint is to search the users by username. It's open for all authenticated requests.
    * @param {string} username - Username to search for
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number
@@ -64,7 +64,7 @@ class Users {
   }
 
   /**
-   * Get a user by ID
+   * Get a user's profile.
    * @param {number} userId - The ID of the user
    * @returns {Promise<Object>} User details
    */
@@ -74,7 +74,7 @@ class Users {
   }
 
   /**
-   * Update a user's profile
+   * Update user's profile.
    * @param {number} userId - The ID of the user
    * @param {Object} profile - Updated profile information
    * @returns {Promise<Object>} Updated user details
@@ -88,7 +88,7 @@ class Users {
   }
 
   /**
-   * Delete a user
+   * This endpoint let administrator of Harbor mark a registered user as removed.It actually won't be deleted from DB.
    * @param {number} userId - The ID of the user
    * @returns {Promise<void>}
    */
@@ -99,7 +99,7 @@ class Users {
   }
 
   /**
-   * Set a user's system admin status
+   * Update a registered user to change to be an administrator of Harbor.
    * @param {number} userId - The ID of the user
    * @param {boolean} sysadminFlag - Whether the user should be a system admin
    * @returns {Promise<Object>} Updated user details
@@ -113,7 +113,7 @@ class Users {
   }
 
   /**
-   * Update a user's password
+   * This endpoint is for user to update password. Users with the admin role can change any user's password. Regular users can change only their own password.
    * @param {number} userId - The ID of the user
    * @param {Object} passwordReq - Password update request
    * @returns {Promise<Object>} Updated user details
@@ -127,7 +127,7 @@ class Users {
   }
 
   /**
-   * Get current user permissions
+   * Get current user permissions.
    * @param {Object} options - Query options
    * @param {string} [options.scope] - Permission scope
    * @param {boolean} [options.relative] - Whether to return relative permissions
@@ -141,7 +141,7 @@ class Users {
   }
 
   /**
-   * Set CLI secret for a user
+   * This endpoint let user generate a new CLI secret for himself. This API only works when auth mode is set to 'OIDC'. Once this API returns with successful status, the old secret will be invalid, as there will be only one CLI secret for a user.
    * @param {number} userId - The ID of the user
    * @param {Object} secret - CLI secret configuration
    * @returns {Promise<Object>} Updated user details

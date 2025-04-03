@@ -13,7 +13,7 @@ class Security {
   }
 
   /**
-   * Get system CVE allowlist
+   * Get the system level allowlist of CVE.  This API can be called by all authenticated users.
    * @returns {Promise<Object>} System CVE allowlist
    */
   async getSystemCVEAllowlist() {
@@ -22,7 +22,7 @@ class Security {
   }
 
   /**
-   * Update system CVE allowlist
+   * This API overwrites the system level allowlist of CVE with the list in request body. Only system Admin has permission to call this API.
    * @param {Object} allowlist - Updated allowlist configuration
    * @returns {Promise<Object>} Updated allowlist
    */
@@ -44,7 +44,7 @@ class Security {
   }
 
   /**
-   * Update scan all schedule
+   * This endpoint is for updating the schedule of scan all job, which scans all of images in Harbor.
    * @param {Object} schedule - Updated schedule configuration
    * @returns {Promise<Object>} Updated schedule
    */
@@ -57,7 +57,7 @@ class Security {
   }
 
   /**
-   * Create scan all schedule
+   * This endpoint is for creating a schedule or a manual trigger for the scan all job, which scans all of images in Harbor.
    * @param {Object} schedule - Schedule configuration
    * @returns {Promise<Object>} Created schedule
    */
