@@ -1,34 +1,34 @@
 const FetchUtil = require('./utils/fetch');
-const ScanDataExport = require('./sections/scanDataExport');
-const Security = require('./sections/security');
-const JobService = require('./sections/jobService');
-const PurgeAudit = require('./sections/purgeAudit');
-const GarbageCollection = require('./sections/garbageCollection');
-const Permissions = require('./sections/permissions');
-const Labels = require('./sections/labels');
-const Projects = require('./sections/projects');
-const Repositories = require('./sections/repositories');
-const Tags = require('./sections/tags');
-const Webhooks = require('./sections/webhooks');
-const ImmutableTagRules = require('./sections/immutableTagRules');
-const Retention = require('./sections/retention');
-const Replication = require('./sections/replication');
-const System = require('./sections/system');
-const LDAP = require('./sections/ldap');
-const Configuration = require('./sections/configuration');
-const Artifacts = require('./sections/artifacts');
-const Scans = require('./sections/scans');
-const Accessories = require('./sections/accessories');
-const Additions = require('./sections/additions');
-const Scanners = require('./sections/scanners');
-const P2PPreheat = require('./sections/p2pPreheat');
-const AuditLogs = require('./sections/auditLogs');
-const UserGroups = require('./sections/userGroups');
-const Icons = require('./sections/icons').default;
-const Robots = require('./sections/robots');
-const Quotas = require('./sections/quotas');
-const Registries = require('./sections/registries');
-const Users = require('./sections/users');
+const ScanDataExport = require('./api/scanDataExport');
+const Security = require('./api/security');
+const JobService = require('./api/jobService');
+const PurgeAudit = require('./api/purgeAudit');
+const GarbageCollection = require('./api/garbageCollection');
+const Permissions = require('./api/permissions');
+const Labels = require('./api/labels');
+const Projects = require('./api/projects');
+const Repositories = require('./api/repositories');
+const Tags = require('./api/tags');
+const Webhooks = require('./api/webhooks');
+const ImmutableTagRules = require('./api/immutableTagRules');
+const Retention = require('./api/retention');
+const Replication = require('./api/replication');
+const System = require('./api/system');
+const LDAP = require('./api/ldap');
+const Configuration = require('./api/configuration');
+const Artifacts = require('./api/artifacts');
+const Scans = require('./api/scans');
+const Accessories = require('./api/accessories');
+const Additions = require('./api/additions');
+const Scanners = require('./api/scanners');
+const P2PPreheat = require('./api/p2pPreheat');
+const AuditLogs = require('./api/auditLogs');
+const UserGroups = require('./api/userGroups');
+const Icons = require('./api/icons').default;
+const Robots = require('./api/robots');
+const Quotas = require('./api/quotas');
+const Registries = require('./api/registries');
+const Users = require('./api/users');
 
 class Harbor {
   constructor(config) {
@@ -72,41 +72,67 @@ class Harbor {
     };
   }
 
-  // Core utility methods
-  async _fetch(endpoint, options = {}) {
-    const url = `${this.baseUrl}${endpoint}`;
-    const auth = btoa(`${this.username}:${this.password}`);
-    
-    const response = await fetch(url, {
-      ...options,
+  /**
+   * Get system health status
+   * @returns {Promise<Object>} Health status
+   */
+  async getHealth() {
+    return this.fetchUtil._fetch('/health', {
       headers: {
-        ...this.headers,
-        ...options.headers,
-        'Authorization': `Basic ${auth}`
+        'X-Request-Id': this.fetchUtil.generateRequestId()
       }
     });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Request failed');
-    }
-
-    return response.json();
   }
 
-  // Basic health check
-  async getHealth() {
-    return this._fetch('/health');
-  }
-
-  // Basic search
+  /**
+   * Search for resources
+   * @param {string} query - Search query
+   * @returns {Promise<Object>} Search results
+   */
   async search(query) {
-    return this._fetch(`/search?q=${encodeURIComponent(query)}`);
+    const params = new URLSearchParams();
+    params.append('q', query);
+    return this.fetchUtil._fetch(`/search?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
   }
 
-  // Basic statistics
+  /**
+   * Get system statistics
+   * @returns {Promise<Object>} System statistics
+   */
   async getStatistics() {
-    return this._fetch('/statistics');
+    return this.fetchUtil._fetch('/statistics', {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+  }
+
+  /**
+   * Get system info
+   * @returns {Promise<Object>} System information
+   */
+  async getSystemInfo() {
+    return this.fetchUtil._fetch('/systeminfo', {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+  }
+
+  /**
+   * Get system volume info
+   * @returns {Promise<Object>} System volume information
+   */
+  async getSystemVolumeInfo() {
+    return this.fetchUtil._fetch('/systeminfo/volumes', {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
   }
 }
 

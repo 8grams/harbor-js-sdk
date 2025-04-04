@@ -18,16 +18,16 @@ class Repositories {
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number
    * @param {number} [options.pageSize=10] - Number of items per page
-   * @param {string} [options.q] - Search query
+   * @param {string} [options.query] - Search query
    * @param {string} [options.sort] - Sort field
    * @returns {Promise<Object>} List of repositories
    */
-  async listRepositories(projectName, { page = 1, pageSize = 10, q, sort } = {}) {
+  async listRepositories(projectName, { page = 1, pageSize = 10, query, sort } = {}) {
     const params = new URLSearchParams();
     params.append('project_name', projectName);
     params.append('page', page);
     params.append('page_size', pageSize);
-    if (q) params.append('q', q);
+    if (query) params.append('q', query);
     if (sort) params.append('sort', sort);
 
     const response = await this.fetchUtil._fetch(`/repositories?${params.toString()}`, {

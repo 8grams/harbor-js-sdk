@@ -16,12 +16,16 @@ class Webhooks {
    * This endpoint returns webhook policies of a project.
    * @param {string} projectName - Name of the project
    * @param {Object} options - Query options
+   * @param {string} [options.query] - Query string
+   * @param {string} [options.sort] - Sort field
    * @param {number} [options.page=1] - Page number
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of webhooks
    */
-  async listWebhooks(projectName, { page = 1, pageSize = 10 } = {}) {
+  async listWebhooks(projectName, { query, sort, page = 1, pageSize = 10 } = {}) {
     const params = new URLSearchParams();
+    if (query) params.append('q', query);
+    if (sort) params.append('sort', sort);
     params.append('page', page);
     params.append('page_size', pageSize);
 
@@ -105,12 +109,16 @@ class Webhooks {
    * @param {string} projectName - Name of the project
    * @param {number} webhookId - ID of the webhook
    * @param {Object} options - Query options
+   * @param {string} [options.query] - Query string
+   * @param {string} [options.sort] - Sort field
    * @param {number} [options.page=1] - Page number
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of webhook jobs
    */
-  async listWebhookJobs(projectName, webhookId, { page = 1, pageSize = 10 } = {}) {
+  async listWebhookJobs(projectName, webhookId, { query, sort, page = 1, pageSize = 10 } = {}) {
     const params = new URLSearchParams();
+    if (query) params.append('q', query);
+    if (sort) params.append('sort', sort);
     params.append('policy_id', webhookId);
     params.append('page', page);
     params.append('page_size', pageSize);

@@ -16,12 +16,16 @@ class ImmutableTagRules {
    * This endpoint returns the immutable tag rules of a project
    * @param {string} projectName - Name of the project
    * @param {Object} options - Query options
+   * @param {string} [options.query] - Search query
+   * @param {string} [options.sort] - Sort field
    * @param {number} [options.page=1] - Page number
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of immutable tag rules
    */
-  async listImmutableTagRules(projectName, { page = 1, pageSize = 10 } = {}) {
+  async listImmutableTagRules(projectName, { query, sort, page = 1, pageSize = 10 } = {}) {
     const params = new URLSearchParams();
+    if (query) params.append('q', query);
+    if (sort) params.append('sort', sort);
     params.append('page', page);
     params.append('page_size', pageSize);
 
