@@ -43,6 +43,7 @@ class Webhooks {
     const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/webhook/policies`, {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(webhook)
@@ -76,6 +77,7 @@ class Webhooks {
     const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/webhook/policies/${webhookId}`, {
       method: 'PUT',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(webhook)
@@ -156,6 +158,7 @@ class Webhooks {
     const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/webhook/policies`, {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(policy)
@@ -189,6 +192,7 @@ class Webhooks {
     const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/webhook/policies/${policyId}`, {
       method: 'PUT',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(policy)

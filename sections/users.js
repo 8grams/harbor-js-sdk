@@ -1,3 +1,5 @@
+import FetchUtil from '../utils/fetch';
+
 /**
  * Class for managing Harbor users
  */
@@ -19,9 +21,17 @@ class Users {
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of users
    */
-  async listUsers({ query, sort, page, pageSize } = {}) {
-    const response = await this.fetchUtil._fetch('/users', {
-      params: { query, sort, page, page_size: pageSize }
+  async listUsers({ query, sort, page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    if (query) params.append('q', query);
+    if (sort) params.append('sort', sort);
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/users?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
@@ -34,6 +44,10 @@ class Users {
   async createUser(userReq) {
     const response = await this.fetchUtil._fetch('/users', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(userReq)
     });
     return response;
@@ -44,7 +58,11 @@ class Users {
    * @returns {Promise<Object>} Current user details
    */
   async getCurrentUserInfo() {
-    const response = await this.fetchUtil._fetch('/users/current');
+    const response = await this.fetchUtil._fetch('/users/current', {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -56,9 +74,16 @@ class Users {
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} Search results
    */
-  async searchUsers(username, { page, pageSize } = {}) {
-    const response = await this.fetchUtil._fetch('/users/search', {
-      params: { username, page, page_size: pageSize }
+  async searchUsers(username, { page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    params.append('username', username);
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/users/search?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
@@ -69,7 +94,11 @@ class Users {
    * @returns {Promise<Object>} User details
    */
   async getUser(userId) {
-    const response = await this.fetchUtil._fetch(`/users/${userId}`);
+    const response = await this.fetchUtil._fetch(`/users/${userId}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -82,6 +111,10 @@ class Users {
   async updateUserProfile(userId, profile) {
     const response = await this.fetchUtil._fetch(`/users/${userId}`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(profile)
     });
     return response;
@@ -94,7 +127,10 @@ class Users {
    */
   async deleteUser(userId) {
     await this.fetchUtil._fetch(`/users/${userId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 
@@ -107,6 +143,10 @@ class Users {
   async setUserSysAdmin(userId, sysadminFlag) {
     const response = await this.fetchUtil._fetch(`/users/${userId}/sysadmin`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(sysadminFlag)
     });
     return response;
@@ -121,6 +161,10 @@ class Users {
   async updateUserPassword(userId, passwordReq) {
     const response = await this.fetchUtil._fetch(`/users/${userId}/password`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(passwordReq)
     });
     return response;
@@ -134,8 +178,14 @@ class Users {
    * @returns {Promise<Object>} User permissions
    */
   async getCurrentUserPermissions({ scope, relative } = {}) {
-    const response = await this.fetchUtil._fetch('/users/current/permissions', {
-      params: { scope, relative }
+    const params = new URLSearchParams();
+    if (scope) params.append('scope', scope);
+    if (relative) params.append('relative', relative);
+
+    const response = await this.fetchUtil._fetch(`/users/current/permissions?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
@@ -149,6 +199,10 @@ class Users {
   async setCliSecret(userId, secret) {
     const response = await this.fetchUtil._fetch(`/users/${userId}/cli_secret`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(secret)
     });
     return response;

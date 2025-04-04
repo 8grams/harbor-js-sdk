@@ -34,6 +34,7 @@ class Retention {
     const response = await this.fetchUtil._fetch('/retentions', {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(policy)
@@ -65,6 +66,7 @@ class Retention {
     const response = await this.fetchUtil._fetch(`/retentions/${id}`, {
       method: 'PUT',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(policy)
@@ -97,6 +99,7 @@ class Retention {
     const response = await this.fetchUtil._fetch(`/retentions/${id}/executions`, {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify({ dry_run: dryRun })
@@ -135,6 +138,7 @@ class Retention {
     await this.fetchUtil._fetch(`/retentions/${id}/executions/${executionId}`, {
       method: 'PATCH',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify({ action: 'stop' })

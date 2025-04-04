@@ -50,6 +50,7 @@ class Scans {
     const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/scan`, {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(scanType)
@@ -69,6 +70,7 @@ class Scans {
     const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/scan/stop`, {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(scanType)

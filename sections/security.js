@@ -34,6 +34,7 @@ class Security {
     const response = await this.fetchUtil._fetch('/system/CVEAllowlist', {
       method: 'PUT',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(allowlist)
@@ -63,6 +64,7 @@ class Security {
     const response = await this.fetchUtil._fetch('/system/scanAll/schedule', {
       method: 'PUT',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(schedule)
@@ -79,6 +81,7 @@ class Security {
     const response = await this.fetchUtil._fetch('/system/scanAll/schedule', {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(schedule)

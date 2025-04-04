@@ -1,3 +1,5 @@
+import FetchUtil from '../utils/fetch';
+
 /**
  * Class for managing Harbor robot accounts
  */
@@ -26,7 +28,11 @@ class Robots {
     params.append('page', page);
     params.append('page_size', pageSize);
 
-    const response = await this.fetchUtil._fetch(`/robots?${params.toString()}`);
+    const response = await this.fetchUtil._fetch(`/robots?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -38,6 +44,10 @@ class Robots {
   async createRobot(robot) {
     const response = await this.fetchUtil._fetch('/robots', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(robot)
     });
     return response;
@@ -49,7 +59,11 @@ class Robots {
    * @returns {Promise<Object>} The robot account details
    */
   async getRobot(robotId) {
-    const response = await this.fetchUtil._fetch(`/robots/${robotId}`);
+    const response = await this.fetchUtil._fetch(`/robots/${robotId}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -62,6 +76,10 @@ class Robots {
   async updateRobot(robotId, robot) {
     const response = await this.fetchUtil._fetch(`/robots/${robotId}`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(robot)
     });
     return response;
@@ -76,6 +94,10 @@ class Robots {
   async refreshRobotSecret(robotId, robotSec) {
     const response = await this.fetchUtil._fetch(`/robots/${robotId}`, {
       method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(robotSec)
     });
     return response;
@@ -88,7 +110,10 @@ class Robots {
    */
   async deleteRobot(robotId) {
     await this.fetchUtil._fetch(`/robots/${robotId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 }
