@@ -17,21 +17,28 @@ class Projects {
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number
    * @param {number} [options.pageSize=10] - Number of items per page
+   * @param {string} [options.query] - Search query
+   * @param {string} [options.sort] - Sort field
    * @param {string} [options.name] - Filter by project name
    * @param {boolean} [options.public] - Filter by public status
    * @param {string} [options.owner] - Filter by owner
    * @param {boolean} [options.withDetail] - Include detailed information
    * @returns {Promise<Object>} List of projects
    */
-  async listProjects({ page, pageSize, name, public: isPublic, owner, withDetail } = {}) {
-    const response = await this.fetchUtil._fetch('/projects', {
-      params: {
-        page,
-        page_size: pageSize,
-        name,
-        public: isPublic,
-        owner,
-        with_detail: withDetail
+  async listProjects({ page = 1, pageSize = 10, query, sort, name, public: isPublic, owner, withDetail } = {}) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('page_size', pageSize);
+    if (query) params.append('q', query);
+    if (sort) params.append('sort', sort);
+    if (name) params.append('name', name);
+    if (isPublic !== undefined) params.append('public', isPublic);
+    if (owner) params.append('owner', owner);
+    if (withDetail !== undefined) params.append('with_detail', withDetail);
+
+    const response = await this.fetchUtil._fetch(`/projects?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
       }
     });
     return response;
@@ -45,6 +52,10 @@ class Projects {
   async createProject(project) {
     const response = await this.fetchUtil._fetch('/projects', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(project)
     });
     return response;
@@ -56,7 +67,11 @@ class Projects {
    * @returns {Promise<Object>} Project details
    */
   async getProject(projectName) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}`);
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -67,8 +82,12 @@ class Projects {
    * @returns {Promise<Object>} Updated project
    */
   async updateProject(projectName, project) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(project)
     });
     return response;
@@ -80,8 +99,11 @@ class Projects {
    * @returns {Promise<void>}
    */
   async deleteProject(projectName) {
-    await this.fetchUtil._fetch(`/projects/${projectName}`, {
-      method: 'DELETE'
+    await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}`, {
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 
@@ -91,7 +113,11 @@ class Projects {
    * @returns {Promise<Object>} Project summary
    */
   async getProjectSummary(projectName) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}/summary`);
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/summary`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -101,11 +127,20 @@ class Projects {
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number
    * @param {number} [options.pageSize=10] - Number of items per page
+   * @param {string} [options.query] - Search query
+   * @param {string} [options.sort] - Sort field
    * @returns {Promise<Object>} Project logs
    */
-  async getProjectLogs(projectName, { page, pageSize } = {}) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}/logs`, {
-      params: { page, page_size: pageSize }
+  async getProjectLogs(projectName, { page = 1, pageSize = 10, query, sort } = {}) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('page_size', pageSize);
+    if (query) params.append('q', query);
+    if (sort) params.append('sort', sort);
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/logs?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
@@ -119,9 +154,16 @@ class Projects {
    * @param {string} [options.entityname] - Filter by entity name
    * @returns {Promise<Object>} Project members
    */
-  async getProjectMembers(projectName, { page, pageSize, entityname } = {}) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}/members`, {
-      params: { page, page_size: pageSize, entityname }
+  async getProjectMembers(projectName, { page = 1, pageSize = 10, entityname } = {}) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('page_size', pageSize);
+    if (entityname) params.append('entityname', entityname);
+
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/members?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
@@ -133,8 +175,12 @@ class Projects {
    * @returns {Promise<Object>} Added member
    */
   async addProjectMember(projectName, member) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}/members`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/members`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(member)
     });
     return response;
@@ -148,8 +194,12 @@ class Projects {
    * @returns {Promise<Object>} Updated member
    */
   async updateProjectMember(projectName, userId, role) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}/members/${userId}`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/members/${userId}`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(role)
     });
     return response;
@@ -162,8 +212,11 @@ class Projects {
    * @returns {Promise<void>}
    */
   async deleteProjectMember(projectName, userId) {
-    await this.fetchUtil._fetch(`/projects/${projectName}/members/${userId}`, {
-      method: 'DELETE'
+    await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/members/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 
@@ -173,7 +226,12 @@ class Projects {
    * @returns {Promise<Object>} Project deletable status
    */
   async getProjectDeletable(projectNameOrId) {
-    return this.fetchUtil._fetch(`/projects/${projectNameOrId}/_deletable`);
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/_deletable`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
   }
 
   /**
@@ -182,7 +240,12 @@ class Projects {
    * @returns {Promise<Object>} Project scanner
    */
   async getProjectScanner(projectNameOrId) {
-    return this.fetchUtil._fetch(`/projects/${projectNameOrId}/scanner`);
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/scanner`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
   }
 
   /**
@@ -192,10 +255,15 @@ class Projects {
    * @returns {Promise<Object>} Updated project scanner
    */
   async setProjectScanner(projectNameOrId, payload) {
-    return this.fetchUtil._fetch(`/projects/${projectNameOrId}/scanner`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/scanner`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(payload)
     });
+    return response;
   }
 
   /**
@@ -208,10 +276,19 @@ class Projects {
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of scanner candidates
    */
-  async listScannerCandidates(projectNameOrId, { query, sort, page, pageSize } = {}) {
-    return this.fetchUtil._fetch(`/projects/${projectNameOrId}/scanner/candidates`, {
-      params: { query, sort, page, page_size: pageSize }
+  async listScannerCandidates(projectNameOrId, { query, sort, page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    if (query) params.append('q', query);
+    if (sort) params.append('sort', sort);
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/scanner/candidates?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
+    return response;
   }
 }
 

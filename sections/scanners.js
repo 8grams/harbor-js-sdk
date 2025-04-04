@@ -21,9 +21,17 @@ class Scanners {
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of scanners
    */
-  async listScanners({ query, sort, page, pageSize } = {}) {
-    const response = await this.fetchUtil._fetch('/scanners', {
-      params: { query, sort, page, page_size: pageSize }
+  async listScanners({ query, sort, page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    if (query) params.append('q', query);
+    if (sort) params.append('sort', sort);
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/scanners?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
@@ -36,6 +44,9 @@ class Scanners {
   async createScanner(registration) {
     const response = await this.fetchUtil._fetch('/scanners', {
       method: 'POST',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(registration)
     });
     return response;
@@ -49,6 +60,9 @@ class Scanners {
   async pingScanner(settings) {
     const response = await this.fetchUtil._fetch('/scanners/ping', {
       method: 'POST',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(settings)
     });
     return response;
@@ -60,7 +74,11 @@ class Scanners {
    * @returns {Promise<Object>} Scanner details
    */
   async getScanner(registrationId) {
-    const response = await this.fetchUtil._fetch(`/scanners/${registrationId}`);
+    const response = await this.fetchUtil._fetch(`/scanners/${registrationId}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -73,6 +91,9 @@ class Scanners {
   async updateScanner(registrationId, registration) {
     const response = await this.fetchUtil._fetch(`/scanners/${registrationId}`, {
       method: 'PUT',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(registration)
     });
     return response;
@@ -85,7 +106,10 @@ class Scanners {
    */
   async deleteScanner(registrationId) {
     await this.fetchUtil._fetch(`/scanners/${registrationId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 
@@ -97,6 +121,9 @@ class Scanners {
   async setScannerAsDefault(registrationId) {
     const response = await this.fetchUtil._fetch(`/scanners/${registrationId}`, {
       method: 'PATCH',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify({ is_default: true })
     });
     return response;
@@ -108,7 +135,11 @@ class Scanners {
    * @returns {Promise<Object>} Scanner metadata
    */
   async getScannerMetadata(registrationId) {
-    const response = await this.fetchUtil._fetch(`/scanners/${registrationId}/metadata`);
+    const response = await this.fetchUtil._fetch(`/scanners/${registrationId}/metadata`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -118,7 +149,12 @@ class Scanners {
    * @returns {Promise<Object>} Project scanner
    */
   async getProjectScanner(projectNameOrId) {
-    return this.fetchUtil.fetch(`/projects/${encodeURIComponent(projectNameOrId)}/scanner`);
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/scanner`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
   }
 
   /**
@@ -128,10 +164,14 @@ class Scanners {
    * @returns {Promise<Object>} The updated project scanner
    */
   async setProjectScanner(projectNameOrId, payload) {
-    return this.fetchUtil.fetch(`/projects/${encodeURIComponent(projectNameOrId)}/scanner`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/scanner`, {
       method: 'PUT',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(payload)
     });
+    return response;
   }
 
   /**
@@ -156,7 +196,12 @@ class Scanners {
     params.append('page', page);
     params.append('page_size', pageSize);
 
-    return this.fetchUtil.fetch(`/projects/${encodeURIComponent(projectNameOrId)}/scanner/candidates?${params.toString()}`);
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/scanner/candidates?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
   }
 }
 

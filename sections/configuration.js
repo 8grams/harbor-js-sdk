@@ -1,7 +1,7 @@
 import FetchUtil from '../utils/fetch';
 
 /**
- * Class for managing Harbor configuration
+ * Class for managing Harbor system configuration
  */
 class Configuration {
   /**
@@ -13,10 +13,10 @@ class Configuration {
   }
 
   /**
-   * This endpoint is for retrieving system configurations that only provides for admin user.
-   * @returns {Promise<Object>} Configuration details
+   * Get system configurations
+   * @returns {Promise<Object>} System configurations
    */
-  async getConfiguration() {
+  async getConfigurations() {
     const response = await this.fetchUtil._fetch('/configurations', {
       headers: {
         'X-Request-Id': this.fetchUtil.generateRequestId()
@@ -26,26 +26,27 @@ class Configuration {
   }
 
   /**
-   * This endpoint is for modifying system configurations that only provides for admin user.
-   * @param {Object} config - Updated configuration
-   * @returns {Promise<Object>} Updated configuration
+   * Update system configurations
+   * @param {Object} configurations - Configuration values to update
+   * @returns {Promise<Object>} Updated configurations
    */
-  async updateConfiguration(config) {
+  async updateConfigurations(configurations) {
     const response = await this.fetchUtil._fetch('/configurations', {
       method: 'PUT',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
-      body: JSON.stringify(config)
+      body: JSON.stringify(configurations)
     });
     return response;
   }
 
   /**
-   * This API is for retrieving general system info, this can be called by anonymous request. Some attributes will be omitted in the response when this API is called by anonymous request.
-   * @returns {Promise<Object>} System configuration details
+   * Get system info
+   * @returns {Promise<Object>} System information
    */
-  async getSystemConfiguration() {
+  async getSystemInfo() {
     const response = await this.fetchUtil._fetch('/systeminfo', {
       headers: {
         'X-Request-Id': this.fetchUtil.generateRequestId()
@@ -55,10 +56,10 @@ class Configuration {
   }
 
   /**
-   * This endpoint is for retrieving system volume info that only provides for admin user. Note that the response only reflects the storage status of local disk.
-   * @returns {Promise<Object>} System volume details
+   * Get system volume info
+   * @returns {Promise<Object>} System volume information
    */
-  async getSystemVolume() {
+  async getSystemVolumeInfo() {
     const response = await this.fetchUtil._fetch('/systeminfo/volumes', {
       headers: {
         'X-Request-Id': this.fetchUtil.generateRequestId()

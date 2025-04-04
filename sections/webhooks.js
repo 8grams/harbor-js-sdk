@@ -20,9 +20,15 @@ class Webhooks {
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of webhooks
    */
-  async listWebhooks(projectName, { page, pageSize } = {}) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}/webhook/policies`, {
-      params: { page, page_size: pageSize }
+  async listWebhooks(projectName, { page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/webhook/policies?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
@@ -34,8 +40,11 @@ class Webhooks {
    * @returns {Promise<Object>} Created webhook
    */
   async createWebhook(projectName, webhook) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}/webhook/policies`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/webhook/policies`, {
       method: 'POST',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(webhook)
     });
     return response;
@@ -48,7 +57,11 @@ class Webhooks {
    * @returns {Promise<Object>} Webhook details
    */
   async getWebhook(projectName, webhookId) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}/webhook/policies/${webhookId}`);
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/webhook/policies/${webhookId}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -60,8 +73,11 @@ class Webhooks {
    * @returns {Promise<Object>} Updated webhook
    */
   async updateWebhook(projectName, webhookId, webhook) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}/webhook/policies/${webhookId}`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/webhook/policies/${webhookId}`, {
       method: 'PUT',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(webhook)
     });
     return response;
@@ -74,8 +90,11 @@ class Webhooks {
    * @returns {Promise<void>}
    */
   async deleteWebhook(projectName, webhookId) {
-    await this.fetchUtil._fetch(`/projects/${projectName}/webhook/policies/${webhookId}`, {
-      method: 'DELETE'
+    await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/webhook/policies/${webhookId}`, {
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 
@@ -88,9 +107,16 @@ class Webhooks {
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of webhook jobs
    */
-  async listWebhookJobs(projectName, webhookId, { page, pageSize } = {}) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}/webhook/jobs`, {
-      params: { policy_id: webhookId, page, page_size: pageSize }
+  async listWebhookJobs(projectName, webhookId, { page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    params.append('policy_id', webhookId);
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/webhook/jobs?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
@@ -105,10 +131,19 @@ class Webhooks {
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of webhook policies
    */
-  async listWebhookPolicies(projectNameOrId, { query, sort, page, pageSize } = {}) {
-    return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies`, {
-      params: { query, sort, page, page_size: pageSize }
+  async listWebhookPolicies(projectNameOrId, { query, sort, page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    if (query) params.append('q', query);
+    if (sort) params.append('sort', sort);
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/webhook/policies?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
+    return response;
   }
 
   /**
@@ -118,10 +153,14 @@ class Webhooks {
    * @returns {Promise<Object>} Created webhook policy
    */
   async createWebhookPolicy(projectNameOrId, policy) {
-    return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/webhook/policies`, {
       method: 'POST',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(policy)
     });
+    return response;
   }
 
   /**
@@ -131,7 +170,12 @@ class Webhooks {
    * @returns {Promise<Object>} Webhook policy details
    */
   async getWebhookPolicy(projectNameOrId, policyId) {
-    return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies/${policyId}`);
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/webhook/policies/${policyId}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
   }
 
   /**
@@ -142,10 +186,14 @@ class Webhooks {
    * @returns {Promise<Object>} Updated webhook policy
    */ 
   async updateWebhookPolicy(projectNameOrId, policyId, policy) {
-    return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies/${policyId}`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/webhook/policies/${policyId}`, {
       method: 'PUT',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(policy)
     });
+    return response;
   }
 
   /**
@@ -155,8 +203,11 @@ class Webhooks {
    * @returns {Promise<void>}
    */ 
   async deleteWebhookPolicy(projectNameOrId, policyId) {
-    return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies/${policyId}`, {
-      method: 'DELETE'
+    await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/webhook/policies/${policyId}`, {
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 
@@ -164,6 +215,7 @@ class Webhooks {
    * This endpoint returns the tasks of a specific webhook execution.
    * @param {string} projectNameOrId - Name or ID of the project
    * @param {number} policyId - ID of the webhook policy
+   * @param {number} executionId - ID of the webhook execution
    * @param {Object} options - Query options
    * @param {string} [options.query] - Query string
    * @param {string} [options.sort] - Sort field
@@ -171,10 +223,19 @@ class Webhooks {
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of webhook executions
    */   
-  async listWebhookTasks(projectNameOrId, policyId, executionId, { query, sort, page, pageSize } = {}) {
-    return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies/${policyId}/executions/${executionId}/tasks`, {
-      params: { query, sort, page, page_size: pageSize }
+  async listWebhookTasks(projectNameOrId, policyId, executionId, { query, sort, page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    if (query) params.append('q', query);
+    if (sort) params.append('sort', sort);
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/webhook/policies/${policyId}/executions/${executionId}/tasks?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
+    return response;
   }
 
   /**
@@ -186,7 +247,12 @@ class Webhooks {
    * @returns {Promise<Object>} Webhook task log
    */ 
   async getWebhookTaskLog(projectNameOrId, policyId, executionId, taskId) {
-    return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/policies/${policyId}/executions/${executionId}/tasks/${taskId}/log`);
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/webhook/policies/${policyId}/executions/${executionId}/tasks/${taskId}/log`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
   }
 
   /**
@@ -195,7 +261,12 @@ class Webhooks {
    * @returns {Promise<Object>} Last trigger of a webhook
    */ 
   async getWebhookLastTrigger(projectNameOrId) {
-    return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/lasttrigger`);
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/webhook/lasttrigger`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
   }
 
   /**
@@ -204,7 +275,12 @@ class Webhooks {
    * @returns {Promise<Object>} Supported event types
    */ 
   async getSupportedEventTypes(projectNameOrId) {
-    return this.fetchUtil._fetch(`/projects/${projectNameOrId}/webhook/events`);
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/webhook/events`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
   }
 }
 

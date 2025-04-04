@@ -1,3 +1,5 @@
+import FetchUtil from '../utils/fetch';
+
 /**
  * Class for managing Harbor quotas
  */
@@ -28,7 +30,11 @@ class Quotas {
     params.append('page', page);
     params.append('page_size', pageSize);
 
-    const response = await this.fetchUtil._fetch(`/quotas?${params.toString()}`);
+    const response = await this.fetchUtil._fetch(`/quotas?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -38,7 +44,11 @@ class Quotas {
    * @returns {Promise<Object>} The quota details
    */
   async getQuota(id) {
-    const response = await this.fetchUtil._fetch(`/quotas/${id}`);
+    const response = await this.fetchUtil._fetch(`/quotas/${id}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -51,6 +61,10 @@ class Quotas {
   async updateQuota(id, hard) {
     const response = await this.fetchUtil._fetch(`/quotas/${id}`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify({ hard })
     });
     return response;

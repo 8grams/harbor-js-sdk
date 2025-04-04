@@ -17,7 +17,11 @@ class System {
    * @returns {Promise<Object>} System certificate
    */
   async getSystemCert() {
-    const response = await this.fetchUtil._fetch('/systeminfo/getcert');
+    const response = await this.fetchUtil._fetch('/systeminfo/getcert', {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -26,7 +30,11 @@ class System {
    * @returns {Promise<Object>} OIDC provider status
    */
   async pingOIDC() {
-    const response = await this.fetchUtil._fetch('/system/oidc/ping');
+    const response = await this.fetchUtil._fetch('/system/oidc/ping', {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 }

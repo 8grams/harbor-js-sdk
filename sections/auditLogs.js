@@ -14,18 +14,14 @@ class AuditLogs {
 
   /**
    * This endpoint let user see the recent operation logs of the projects which he is member of
-   * @param {string} [query] - Search query
-   * @param {string} [sort] - Sort field
-   * @param {number} [page=1] - Page number
-   * @param {number} [pageSize=10] - Number of items per page
+   * @param {Object} options - Query options
+   * @param {string} [options.query] - Search query
+   * @param {string} [options.sort] - Sort field
+   * @param {number} [options.page=1] - Page number
+   * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of audit logs
    */
-  async listAuditLogs(
-    query,
-    sort,
-    page = 1,
-    pageSize = 10
-  ) {
+  async listAuditLogs({ query, sort, page = 1, pageSize = 10 } = {}) {
     const params = new URLSearchParams();
     if (query) params.append('q', query);
     if (sort) params.append('sort', sort);

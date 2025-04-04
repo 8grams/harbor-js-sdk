@@ -17,7 +17,11 @@ class Security {
    * @returns {Promise<Object>} System CVE allowlist
    */
   async getSystemCVEAllowlist() {
-    const response = await this.fetchUtil._fetch('/system/CVEAllowlist');
+    const response = await this.fetchUtil._fetch('/system/CVEAllowlist', {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -29,6 +33,9 @@ class Security {
   async updateSystemCVEAllowlist(allowlist) {
     const response = await this.fetchUtil._fetch('/system/CVEAllowlist', {
       method: 'PUT',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(allowlist)
     });
     return response;
@@ -39,7 +46,11 @@ class Security {
    * @returns {Promise<Object>} Scan all schedule
    */
   async getScanAllSchedule() {
-    const response = await this.fetchUtil._fetch('/system/scanAll/schedule');
+    const response = await this.fetchUtil._fetch('/system/scanAll/schedule', {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -51,6 +62,9 @@ class Security {
   async updateScanAllSchedule(schedule) {
     const response = await this.fetchUtil._fetch('/system/scanAll/schedule', {
       method: 'PUT',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(schedule)
     });
     return response;
@@ -64,6 +78,9 @@ class Security {
   async createScanAllSchedule(schedule) {
     const response = await this.fetchUtil._fetch('/system/scanAll/schedule', {
       method: 'POST',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(schedule)
     });
     return response;

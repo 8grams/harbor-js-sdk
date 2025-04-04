@@ -59,6 +59,7 @@ class PurgeAudit {
     await this.fetchUtil._fetch(`/system/purgeaudit/${purgeId}`, {
       method: 'PUT',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify({ action: 'stop' })
@@ -95,12 +96,13 @@ class PurgeAudit {
   /**
    * This endpoint is for update purge job schedule.
    * @param {Object} schedule - Schedule configuration
-   * @returns {Promise<Object>} Created schedule
+   * @returns {Promise<Object>} Updated schedule
    */
-  async createPurgeSchedule(schedule) {
+  async updatePurgeSchedule(schedule) {
     const response = await this.fetchUtil._fetch('/system/purgeaudit/schedule', {
-      method: 'POST',
+      method: 'PUT',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(schedule)
@@ -109,14 +111,15 @@ class PurgeAudit {
   }
 
   /**
-   * This endpoint is for update purge job schedule.
-   * @param {Object} schedule - Updated schedule configuration
-   * @returns {Promise<Object>} Updated schedule
+   * This endpoint is for create purge job schedule.
+   * @param {Object} schedule - Schedule configuration
+   * @returns {Promise<Object>} Created schedule
    */
-  async updatePurgeSchedule(schedule) {
+  async createPurgeSchedule(schedule) {
     const response = await this.fetchUtil._fetch('/system/purgeaudit/schedule', {
-      method: 'PUT',
+      method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(schedule)

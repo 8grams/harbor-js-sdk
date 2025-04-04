@@ -13,6 +13,73 @@ class GarbageCollection {
   }
 
   /**
+   * Get garbage collection status
+   * @returns {Promise<Object>} Garbage collection status
+   */
+  async getGarbageCollectionStatus() {
+    const response = await this.fetchUtil._fetch('/system/gc', {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
+  }
+
+  /**
+   * Start garbage collection
+   * @param {Object} options - Garbage collection options
+   * @param {boolean} [options.dryRun=false] - Whether to perform a dry run
+   * @param {boolean} [options.deleteUntagged=false] - Whether to delete untagged artifacts
+   * @returns {Promise<Object>} Garbage collection job status
+   */
+  async startGarbageCollection({ dryRun = false, deleteUntagged = false } = {}) {
+    const response = await this.fetchUtil._fetch('/system/gc', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
+      body: JSON.stringify({
+        dry_run: dryRun,
+        delete_untagged: deleteUntagged
+      })
+    });
+    return response;
+  }
+
+  /**
+   * Get garbage collection schedule
+   * @returns {Promise<Object>} Garbage collection schedule
+   */
+  async getGarbageCollectionSchedule() {
+    const response = await this.fetchUtil._fetch('/system/gc/schedule', {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
+  }
+
+  /**
+   * Update garbage collection schedule
+   * @param {Object} schedule - Schedule configuration
+   * @param {string} schedule.type - Schedule type (e.g., 'Daily', 'Weekly', 'Custom')
+   * @param {string} schedule.cron - Cron expression for custom schedule
+   * @returns {Promise<Object>} Updated schedule
+   */
+  async updateGarbageCollectionSchedule(schedule) {
+    const response = await this.fetchUtil._fetch('/system/gc/schedule', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
+      body: JSON.stringify(schedule)
+    });
+    return response;
+  }
+
+  /**
    * This endpoint let user get gc execution history.
    * @param {Object} options - Query options
    * @param {number} [options.page=1] - Page number

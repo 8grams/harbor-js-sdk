@@ -1,3 +1,5 @@
+import FetchUtil from '../utils/fetch';
+
 /**
  * Class for managing Harbor registries
  */
@@ -15,7 +17,12 @@ class Registries {
    * @returns {Promise<Object>} List of registry adapters
    */
   async listRegistryAdapters() {
-    return this.fetchUtil._fetch('/replication/adapters');
+    const response = await this.fetchUtil._fetch('/replication/adapters', {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
   }
 
   /**
@@ -23,7 +30,12 @@ class Registries {
    * @returns {Promise<Object>} List of registry provider infos
    */
   async listRegistryProviderInfos() {
-    return this.fetchUtil._fetch('/replication/adapterinfos');
+    const response = await this.fetchUtil._fetch('/replication/adapterinfos', {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
   }
 
   /**
@@ -34,6 +46,10 @@ class Registries {
   async createRegistry(registry) {
     const response = await this.fetchUtil._fetch('/registries', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(registry)
     });
     return response;
@@ -57,7 +73,11 @@ class Registries {
     params.append('page', page);
     params.append('page_size', pageSize);
 
-    const response = await this.fetchUtil._fetch(`/registries?${params.toString()}`);
+    const response = await this.fetchUtil._fetch(`/registries?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -69,6 +89,10 @@ class Registries {
   async pingRegistry(registry) {
     const response = await this.fetchUtil._fetch('/registries/ping', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(registry)
     });
     return response;
@@ -80,7 +104,11 @@ class Registries {
    * @returns {Promise<Object>} Registry details
    */
   async getRegistry(id) {
-    const response = await this.fetchUtil._fetch(`/registries/${id}`);
+    const response = await this.fetchUtil._fetch(`/registries/${id}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -93,6 +121,10 @@ class Registries {
   async updateRegistry(id, registry) {
     const response = await this.fetchUtil._fetch(`/registries/${id}`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(registry)
     });
     return response;
@@ -105,7 +137,10 @@ class Registries {
    */
   async deleteRegistry(id) {
     await this.fetchUtil._fetch(`/registries/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 
@@ -115,7 +150,11 @@ class Registries {
    * @returns {Promise<Object>} Registry information
    */
   async getRegistryInfo(id) {
-    const response = await this.fetchUtil._fetch(`/registries/${id}/info`);
+    const response = await this.fetchUtil._fetch(`/registries/${id}/info`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 }

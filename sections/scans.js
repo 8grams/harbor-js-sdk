@@ -47,13 +47,14 @@ class Scans {
    * @returns {Promise<Object>} The result of the scan
    */ 
   async scanArtifact(projectName, repositoryName, reference, scanType) {
-    return this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/scan`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/scan`, {
       method: 'POST',
       headers: {
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(scanType)
     });
+    return response;
   }
 
   /**
@@ -65,13 +66,14 @@ class Scans {
    * @returns {Promise<Object>} The result of the scan
    */  
   async stopScanArtifact(projectName, repositoryName, reference, scanType) {
-    return this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/scan/stop`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/scan/stop`, {
       method: 'POST',
       headers: {
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify(scanType)
     });
+    return response;
   }
 
   /**
@@ -83,12 +85,13 @@ class Scans {
    * @returns {Promise<Object>} The result of the scan
    */   
   async getReportLog(projectName, repositoryName, reference, reportId) {
-    return this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/scan/${encodeURIComponent(reportId)}/log`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/scan/${encodeURIComponent(reportId)}/log`, {
       headers: {
         'Accept': 'text/plain',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       }
     });
+    return response;
   }
 }
 

@@ -20,9 +20,15 @@ class ImmutableTagRules {
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of immutable tag rules
    */
-  async listImmutableTagRules(projectName, { page, pageSize } = {}) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}/immutabletagrules`, {
-      params: { page, page_size: pageSize }
+  async listImmutableTagRules(projectName, { page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/immutabletagrules?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
@@ -34,8 +40,12 @@ class ImmutableTagRules {
    * @returns {Promise<Object>} Created rule
    */
   async createImmutableTagRule(projectName, rule) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}/immutabletagrules`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/immutabletagrules`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(rule)
     });
     return response;
@@ -49,8 +59,12 @@ class ImmutableTagRules {
    * @returns {Promise<Object>} Updated rule
    */
   async updateImmutableTagRule(projectName, ruleId, rule) {
-    const response = await this.fetchUtil._fetch(`/projects/${projectName}/immutabletagrules/${ruleId}`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/immutabletagrules/${ruleId}`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(rule)
     });
     return response;
@@ -63,8 +77,11 @@ class ImmutableTagRules {
    * @returns {Promise<void>}
    */
   async deleteImmutableTagRule(projectName, ruleId) {
-    await this.fetchUtil._fetch(`/projects/${projectName}/immutabletagrules/${ruleId}`, {
-      method: 'DELETE'
+    await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/immutabletagrules/${ruleId}`, {
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 }

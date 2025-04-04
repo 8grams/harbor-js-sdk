@@ -27,7 +27,7 @@ class Artifacts {
    * @param {boolean} [options.withSbomOverview=false] - Whether to include SBOM overview
    * @param {boolean} [options.withImmutableStatus=false] - Whether to include immutable status
    * @param {boolean} [options.withAccessory=false] - Whether to include accessories
-   * @returns {Promise<Object>}
+   * @returns {Promise<Object>} List of artifacts
    */
   async listArtifacts(projectName, repositoryName, { 
     query, 
@@ -80,6 +80,8 @@ class Artifacts {
   async getArtifact(projectName, repositoryName, reference, { 
     page = 1,
     pageSize = 10,
+    query,
+    sort,
     withTag = false, 
     withLabel = false, 
     withScanOverview = false,
@@ -90,6 +92,8 @@ class Artifacts {
     const params = new URLSearchParams();
     params.append('page', page);
     params.append('page_size', pageSize);
+    if (query) params.append('q', query);
+    if (sort) params.append('sort', sort);
     if (withTag) params.append('with_tag', withTag);
     if (withLabel) params.append('with_label', withLabel);
     if (withScanOverview) params.append('with_scan_overview', withScanOverview);

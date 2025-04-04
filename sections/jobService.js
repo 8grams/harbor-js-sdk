@@ -31,9 +31,10 @@ class JobService {
    * @returns {Promise<void>}
    */
   async stopJobServiceJob(jobId) {
-    await this.fetchUtil._fetch(`/jobservice/jobs/${jobId}`, {
+    await this.fetchUtil._fetch(`/jobservice/jobs/${encodeURIComponent(jobId)}`, {
       method: 'PUT',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify({ action: 'stop' })
@@ -46,7 +47,7 @@ class JobService {
    * @returns {Promise<Object>} Job logs
    */
   async getJobServiceJobLog(jobId) {
-    const response = await this.fetchUtil._fetch(`/jobservice/jobs/${jobId}/log`, {
+    const response = await this.fetchUtil._fetch(`/jobservice/jobs/${encodeURIComponent(jobId)}/log`, {
       headers: {
         'X-Request-Id': this.fetchUtil.generateRequestId()
       }
@@ -73,7 +74,7 @@ class JobService {
    * @returns {Promise<Object>} List of workers in pool
    */
   async getWorkersInPool(poolId) {
-    const response = await this.fetchUtil._fetch(`/jobservice/pools/${poolId}/workers`, {
+    const response = await this.fetchUtil._fetch(`/jobservice/pools/${encodeURIComponent(poolId)}/workers`, {
       headers: {
         'X-Request-Id': this.fetchUtil.generateRequestId()
       }
@@ -87,9 +88,10 @@ class JobService {
    * @returns {Promise<void>}
    */
   async stopJob(jobId) {
-    await this.fetchUtil._fetch(`/jobservice/jobs/${jobId}`, {
+    await this.fetchUtil._fetch(`/jobservice/jobs/${encodeURIComponent(jobId)}`, {
       method: 'PUT',
       headers: {
+        'Content-Type': 'application/json',
         'X-Request-Id': this.fetchUtil.generateRequestId()
       },
       body: JSON.stringify({ action: 'stop' })

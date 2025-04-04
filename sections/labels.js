@@ -22,14 +22,19 @@ class Labels {
    * @param {string} [options.projectId] - Filter by project ID
    * @returns {Promise<Object>} List of labels
    */
-  async listLabels({ page, pageSize, name, scope, projectId } = {}) {
-    const response = await this.fetchUtil._fetch('/labels', {
-      params: {
-        page,
-        page_size: pageSize,
-        name,
-        scope,
-        project_id: projectId
+  async listLabels({ page = 1, pageSize = 10, query, sort, name, scope, projectId } = {}) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('page_size', pageSize);
+    if (query) params.append('q', query);
+    if (sort) params.append('sort', sort);
+    if (name) params.append('name', name);
+    if (scope) params.append('scope', scope);
+    if (projectId) params.append('project_id', projectId);
+
+    const response = await this.fetchUtil._fetch(`/labels?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
       }
     });
     return response;
@@ -43,6 +48,10 @@ class Labels {
   async createLabel(label) {
     const response = await this.fetchUtil._fetch('/labels', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(label)
     });
     return response;
@@ -54,7 +63,11 @@ class Labels {
    * @returns {Promise<Object>} Label details
    */
   async getLabel(labelId) {
-    const response = await this.fetchUtil._fetch(`/labels/${labelId}`);
+    const response = await this.fetchUtil._fetch(`/labels/${labelId}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
     return response;
   }
 
@@ -67,6 +80,10 @@ class Labels {
   async updateLabel(labelId, label) {
     const response = await this.fetchUtil._fetch(`/labels/${labelId}`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(label)
     });
     return response;
@@ -79,7 +96,10 @@ class Labels {
    */
   async deleteLabel(labelId) {
     await this.fetchUtil._fetch(`/labels/${labelId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 
@@ -91,23 +111,53 @@ class Labels {
    * @param {number} [options.pageSize=10] - Number of items per page
    * @returns {Promise<Object>} List of resources
    */
-  async listLabelResources(labelId, { page, pageSize } = {}) {
-    const response = await this.fetchUtil._fetch(`/labels/${labelId}/resources`, {
-      params: { page, page_size: pageSize }
+  async listLabelResources(labelId, { page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/labels/${labelId}/resources?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
 
+  /**
+   * Add label to artifact
+   * @param {string} projectName - Name of the project
+   * @param {string} repositoryName - Name of the repository
+   * @param {string} reference - Reference of the artifact
+   * @param {Object} label - Label to add
+   * @returns {Promise<Object>} Added label
+   */
   async addLabelToArtifact(projectName, repositoryName, reference, label) {
-    return this.fetchUtil._fetch(`/projects/${projectName}/repositories/${repositoryName}/artifacts/${reference}/labels`, {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/labels`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
       body: JSON.stringify(label)
     });
+    return response;
   }
 
+  /**
+   * Remove label from artifact
+   * @param {string} projectName - Name of the project
+   * @param {string} repositoryName - Name of the repository
+   * @param {string} reference - Reference of the artifact
+   * @param {number} labelId - ID of the label to remove
+   * @returns {Promise<void>}
+   */
   async removeLabelFromArtifact(projectName, repositoryName, reference, labelId) {
-    return this.fetchUtil._fetch(`/projects/${projectName}/repositories/${repositoryName}/artifacts/${reference}/labels/${labelId}`, {
-      method: 'DELETE'
+    await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/labels/${labelId}`, {
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 }

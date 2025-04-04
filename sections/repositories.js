@@ -22,15 +22,67 @@ class Repositories {
    * @param {string} [options.sort] - Sort field
    * @returns {Promise<Object>} List of repositories
    */
-  async listRepositories(projectName, { page, pageSize, q, sort } = {}) {
-    const response = await this.fetchUtil._fetch(`/repositories`, {
-      params: { 
-        project_name: projectName,
-        page,
-        page_size: pageSize,
-        q,
-        sort
+  async listRepositories(projectName, { page = 1, pageSize = 10, q, sort } = {}) {
+    const params = new URLSearchParams();
+    params.append('project_name', projectName);
+    params.append('page', page);
+    params.append('page_size', pageSize);
+    if (q) params.append('q', q);
+    if (sort) params.append('sort', sort);
+
+    const response = await this.fetchUtil._fetch(`/repositories?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
       }
+    });
+    return response;
+  }
+
+  /**
+   * Get repository information
+   * @param {string} projectName - Name of the project
+   * @param {string} repositoryName - Name of the repository
+   * @returns {Promise<Object>} Repository details
+   */
+  async getRepository(projectName, repositoryName) {
+    const response = await this.fetchUtil._fetch(`/repositories/${encodeURIComponent(projectName)}/${encodeURIComponent(repositoryName)}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
+  }
+
+  /**
+   * Delete repository
+   * @param {string} projectName - Name of the project
+   * @param {string} repositoryName - Name of the repository
+   * @returns {Promise<void>}
+   */
+  async deleteRepository(projectName, repositoryName) {
+    await this.fetchUtil._fetch(`/repositories/${encodeURIComponent(projectName)}/${encodeURIComponent(repositoryName)}`, {
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+  }
+
+  /**
+   * Update repository description
+   * @param {string} projectName - Name of the project
+   * @param {string} repositoryName - Name of the repository
+   * @param {Object} description - Repository description
+   * @returns {Promise<Object>} Updated repository details
+   */
+  async updateRepository(projectName, repositoryName, description) {
+    const response = await this.fetchUtil._fetch(`/repositories/${encodeURIComponent(projectName)}/${encodeURIComponent(repositoryName)}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      },
+      body: JSON.stringify(description)
     });
     return response;
   }

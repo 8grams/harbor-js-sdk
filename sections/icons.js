@@ -1,3 +1,5 @@
+import FetchUtil from '../utils/fetch';
+
 /**
  * Class for managing Harbor icons
  */

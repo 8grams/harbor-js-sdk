@@ -23,9 +23,17 @@ class Tags {
    * @param {string} [options.sort] - Sort field
    * @returns {Promise<Object>} List of tags
    */
-  async listTags(projectName, repositoryName, { page, pageSize, labelId, sort } = {}) {
-    const response = await this.fetchUtil._fetch(`/repositories/${projectName}/${repositoryName}/tags`, {
-      params: { page, page_size: pageSize, label_id: labelId, sort }
+  async listTags(projectName, repositoryName, { page = 1, pageSize = 10, labelId, sort } = {}) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('page_size', pageSize);
+    if (labelId) params.append('label_id', labelId);
+    if (sort) params.append('sort', sort);
+
+    const response = await this.fetchUtil._fetch(`/repositories/${encodeURIComponent(projectName)}/${encodeURIComponent(repositoryName)}/tags?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
     return response;
   }
@@ -38,8 +46,11 @@ class Tags {
    * @returns {Promise<void>}
    */
   async deleteTag(projectName, repositoryName, tag) {
-    await this.fetchUtil._fetch(`/repositories/${projectName}/${repositoryName}/tags/${tag}`, {
-      method: 'DELETE'
+    await this.fetchUtil._fetch(`/repositories/${encodeURIComponent(projectName)}/${encodeURIComponent(repositoryName)}/tags/${encodeURIComponent(tag)}`, {
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
     });
   }
 }

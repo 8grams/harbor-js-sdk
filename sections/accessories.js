@@ -38,6 +38,40 @@ class Accessories {
     });
     return response;
   }
+
+  /**
+   * Get the accessory specified by the reference under the project and repository
+   * @param {string} projectName - Name of the project
+   * @param {string} repositoryName - Name of the repository
+   * @param {string} reference - Reference of the artifact
+   * @param {string} accessoryDigest - Digest of the accessory
+   * @returns {Promise<Object>} Accessory details
+   */
+  async getAccessory(projectName, repositoryName, reference, accessoryDigest) {
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/accessories/${encodeURIComponent(accessoryDigest)}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
+  }
+
+  /**
+   * Delete the accessory specified by the reference under the project and repository
+   * @param {string} projectName - Name of the project
+   * @param {string} repositoryName - Name of the repository
+   * @param {string} reference - Reference of the artifact
+   * @param {string} accessoryDigest - Digest of the accessory
+   * @returns {Promise<void>}
+   */
+  async deleteAccessory(projectName, repositoryName, reference, accessoryDigest) {
+    await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/repositories/${encodeURIComponent(repositoryName)}/artifacts/${encodeURIComponent(reference)}/accessories/${encodeURIComponent(accessoryDigest)}`, {
+      method: 'DELETE',
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+  }
 }
 
 export default Accessories; 
