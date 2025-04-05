@@ -1,4 +1,4 @@
-import Harbor from '../src/index';
+import Harbor from '../index';
 
 describe('Harbor SDK', () => {
   let harbor;
