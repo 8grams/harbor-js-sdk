@@ -53,7 +53,7 @@ The SDK provides methods for interacting with various Harbor API endpoints:
 - Security
 - And more...
 
-For detailed API documentation, please refer to the [Harbor API documentation](https://goharbor.io/docs/latest/api/).
+For detailed API documentation, please refer to the [Harbor API documentation](https://goharbor.io/docs/latest).
 
 ## License
 
