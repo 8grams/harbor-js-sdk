@@ -14,125 +14,6 @@ class Webhooks {
 
   /**
    * This endpoint returns webhook policies of a project.
-   * @param {string} projectName - Name of the project
-   * @param {Object} options - Query options
-   * @param {string} [options.query] - Query string
-   * @param {string} [options.sort] - Sort field
-   * @param {number} [options.page=1] - Page number
-   * @param {number} [options.pageSize=10] - Number of items per page
-   * @returns {Promise<Object>} List of webhooks
-   */
-  async listWebhooks(projectName, { query, sort, page = 1, pageSize = 10 } = {}) {
-    const params = new URLSearchParams();
-    if (query) params.append('q', query);
-    if (sort) params.append('sort', sort);
-    params.append('page', page);
-    params.append('page_size', pageSize);
-
-    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/webhook/policies?${params.toString()}`, {
-      headers: {
-        'X-Request-Id': this.fetchUtil.generateRequestId()
-      }
-    });
-    return response;
-  }
-
-  /**
-   * This endpoint create a webhook policy if the project does not have one.
-   * @param {string} projectName - Name of the project
-   * @param {Object} webhook - Webhook configuration
-   * @returns {Promise<Object>} Created webhook
-   */
-  async createWebhook(projectName, webhook) {
-    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/webhook/policies`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Request-Id': this.fetchUtil.generateRequestId()
-      },
-      body: JSON.stringify(webhook)
-    });
-    return response;
-  }
-
-  /**
-   * This endpoint returns specified webhook policy of a project.
-   * @param {string} projectName - Name of the project
-   * @param {number} webhookId - ID of the webhook
-   * @returns {Promise<Object>} Webhook details
-   */
-  async getWebhook(projectName, webhookId) {
-    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/webhook/policies/${webhookId}`, {
-      headers: {
-        'X-Request-Id': this.fetchUtil.generateRequestId()
-      }
-    });
-    return response;
-  }
-
-  /**
-   * This endpoint is aimed to update the webhook policy of a project.
-   * @param {string} projectName - Name of the project
-   * @param {number} webhookId - ID of the webhook
-   * @param {Object} webhook - Updated webhook configuration
-   * @returns {Promise<Object>} Updated webhook
-   */
-  async updateWebhook(projectName, webhookId, webhook) {
-    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/webhook/policies/${webhookId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Request-Id': this.fetchUtil.generateRequestId()
-      },
-      body: JSON.stringify(webhook)
-    });
-    return response;
-  }
-
-  /**
-   * This endpoint is aimed to delete webhookpolicy of a project.
-   * @param {string} projectName - Name of the project
-   * @param {number} webhookId - ID of the webhook
-   * @returns {Promise<void>}
-   */
-  async deleteWebhook(projectName, webhookId) {
-    await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/webhook/policies/${webhookId}`, {
-      method: 'DELETE',
-      headers: {
-        'X-Request-Id': this.fetchUtil.generateRequestId()
-      }
-    });
-  }
-
-  /**
-   * This endpoint returns webhook jobs of a project.
-   * @param {string} projectName - Name of the project
-   * @param {number} webhookId - ID of the webhook
-   * @param {Object} options - Query options
-   * @param {string} [options.query] - Query string
-   * @param {string} [options.sort] - Sort field
-   * @param {number} [options.page=1] - Page number
-   * @param {number} [options.pageSize=10] - Number of items per page
-   * @returns {Promise<Object>} List of webhook jobs
-   */
-  async listWebhookJobs(projectName, webhookId, { query, sort, page = 1, pageSize = 10 } = {}) {
-    const params = new URLSearchParams();
-    if (query) params.append('q', query);
-    if (sort) params.append('sort', sort);
-    params.append('policy_id', webhookId);
-    params.append('page', page);
-    params.append('page_size', pageSize);
-
-    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectName)}/webhook/jobs?${params.toString()}`, {
-      headers: {
-        'X-Request-Id': this.fetchUtil.generateRequestId()
-      }
-    });
-    return response;
-  }
-
-  /**
-   * This endpoint returns webhook policies of a project.
    * @param {string} projectNameOrId - Name or ID of the project
    * @param {Object} options - Query options
    * @param {string} [options.query] - Query string
@@ -221,6 +102,33 @@ class Webhooks {
         'X-Request-Id': this.fetchUtil.generateRequestId()
       }
     });
+  }
+
+  /**
+   * This endpoint returns webhook jobs of a project.
+   * @param {string} projectNameOrId - Name or ID of the project
+   * @param {number} policyId - ID of the webhook policy
+   * @param {Object} options - Query options
+   * @param {string} [options.query] - Query string
+   * @param {string} [options.sort] - Sort field
+   * @param {number} [options.page=1] - Page number
+   * @param {number} [options.pageSize=10] - Number of items per page
+   * @returns {Promise<Object>} List of webhook jobs
+   */
+  async listWebhookJobs(projectNameOrId, policyId, { query, sort, page = 1, pageSize = 10 } = {}) {
+    const params = new URLSearchParams();
+    if (query) params.append('q', query);
+    if (sort) params.append('sort', sort);
+    params.append('policy_id', policyId);
+    params.append('page', page);
+    params.append('page_size', pageSize);
+
+    const response = await this.fetchUtil._fetch(`/projects/${encodeURIComponent(projectNameOrId)}/webhook/jobs?${params.toString()}`, {
+      headers: {
+        'X-Request-Id': this.fetchUtil.generateRequestId()
+      }
+    });
+    return response;
   }
 
   /**
