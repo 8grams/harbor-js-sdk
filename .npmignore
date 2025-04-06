@@ -19,6 +19,8 @@ coverage/
 tsconfig.json
 rollup.config.js
 
+babel.config.js
+
 # Documentation
 docs/
 *.md

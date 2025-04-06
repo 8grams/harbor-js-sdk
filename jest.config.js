@@ -1,15 +1,17 @@
-module.exports = {
+/** @type {import('jest').Config} */
+const config = {
   testEnvironment: 'node',
-  testMatch: ['**/test/**/*.test.js'],
-  collectCoverage: true,
+  testMatch: ['**/__tests__/**/*.test.js'],
+  collectCoverageFrom: ['src/**/*.js'],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov'],
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-    '/test/'
-  ],
-  moduleFileExtensions: ['js', 'json'],
+  moduleFileExtensions: ['js'],
   transform: {
     '^.+\\.js$': 'babel-jest'
-  }
-}; 
+  },
+  transformIgnorePatterns: [
+    '/node_modules/'
+  ]
+};
+
+export default config; 

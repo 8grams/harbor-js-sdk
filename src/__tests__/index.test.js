@@ -24,7 +24,7 @@ describe('Harbor SDK', () => {
     expect(harbor.system).toBeDefined();
     expect(harbor.security).toBeDefined();
     expect(harbor.immutableTagRules).toBeDefined();
-    expect(harbor.configurations).toBeDefined();
+    expect(harbor.configuration).toBeDefined();
     expect(harbor.auditLogs).toBeDefined();
     expect(harbor.garbageCollection).toBeDefined();
     expect(harbor.ldap).toBeDefined();
